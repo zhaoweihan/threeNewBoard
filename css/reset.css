@@ -1,0 +1,11 @@
+body{ font-family:"微软雅黑"; font-size:14px; background:#f5f3f6;}
+ul,li { list-style: none; }
+
+a{text-decoration: none;}
+a:hover{text-decoration: none; }
+
+*{padding:0;margin:0; border:none}
+.clr:before, .clr:after { content: "\0020"; display: block; height: 0; overflow: hidden; }
+.clr:after { clear: both; }
+.clr { zoom: 1; clear:both}
+

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>新闻列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,minimal-ui">
+		<meta name="format-detection" content="email=no">
+		<meta name="format-detection" content="address=no">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" type="text/css" href="css/mobile_reset.css">
+		<link rel="stylesheet" type="text/css" href="css/mobile_style.css">
+		<link rel="stylesheet" type="text/css" href="css/loading.default.css" />
+		<link rel="stylesheet" type="text/css" href="css/refresh.default.css" />
+	</head>
+
+	<body>
+		<div class="header">
+			<div class="head"><span>新闻列表</span></div>
+		</div>
+		<div class="newsList ui-refresh">
+			<ul id="newsList">
+				<!--<li><a href="#"><em>最新新闻公告标题</em><span>2016-06-13</span></a></li>-->
+			</ul>
+			<div class="ui-refresh-down"></div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+		<script type="text/javascript" src="js/zepto.min.js"></script>
+		<script type="text/javascript" src="js/gmu/gmu.js"></script>
+		<!--refresh begin-->
+		<script type="text/javascript" src="js/gmu/event.js"></script>
+		<script type="text/javascript" src="js/gmu/widget.js"></script>
+		<script type="text/javascript" src="js/gmu/refresh.js"></script>
+		<script type="text/javascript" src="js/gmu/$lite.js"></script>
+		<!--refresh end-->
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/mobile_list.js"></script>
+	</body>
+
+</html>

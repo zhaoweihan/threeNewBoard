@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>弹窗页面</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link rel="stylesheet" href="css/common.css" />
+	</head>
+	<body>
+		<!--所有弹窗的背景div star-->
+		<div class="tcbackground"></div>
+		<!--所有弹窗的背景div end-->
+		<!--是否删除star-->
+		<div class="qrdele"style="display: none;">
+			<div class="qr_title"><span>提示</span><a href="#">X</a></div>
+			<div class="qr_dele_p"><p>确定删除这个对标企业吗？</p></div>
+			<div class="qr_dele_btn"><button class="save">保存</button><button class="quxiao">取消</button></div>
+		</div>
+		<!--是否删除end-->
+		<!--保存检索条件 star-->
+		<div class="qrdele top2">
+			<div class="qr_title"><span>保存我的检索</span><a href="#">X</a></div>
+			<div class="qr_box">
+				<ul>
+					<li class="clearfix"><span>搜索条件：</span><textarea disabled="disabled"></textarea></li>
+					<li class="clearfix"><span>命名自定义检索：</span><input type="text" placeholder="请输入一个检索方案名"/>
+					<b>请自定义检索名称</b>
+					</li>
+				</ul>
+			<div class="clr"></div>
+			</div>
+			
+			<div class="qr_dele_btn"><button class="save">保存</button><button class="quxiao">取消</button></div>
+			
+			
+		</div>
+		<!--保存检索条件 end-->
+		<!--查看对象弹窗 star-->
+		<div class="chaktx" style="display: none;">
+		   <div class="chaktx_title"><span>发行对象</span> <a href="#">X</a></div>
+			 <div class="chaktx_table">
+			    <table width="100%" border="1">
+		<tr>
+				<th scope="col" class="tc_fxdx">发行对象</th>
+				<th scope="col" class="tc_rgjg">认购价格(元)</th>
+				<th scope="col" class="tc_rgsl">认购数量(万股)</th>
+				<th scope="col" class="tc_rgje">认购金额(万元)</th>
+				<th scope="col" class="tc_cgqx">持股期限(月)</th>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+</table>
+
+			 </div>
+		</div>
+		<!--查看对象弹窗 end-->
+		<!--查找股东 star-->
+		<div class="chakgd"style="display: none;">
+		 <div class="chaktx_title"><span>查找股东</span> <a href="#">X</a></div>
+		<div class="chazhaogudong">
+			<input type="text" placeholder="请输入股东姓名" >
+			<a href="javascript:;">搜索</a>
+		</div>
+		</div>
+		<!--查看股东end-->
+	</body>
+</html>

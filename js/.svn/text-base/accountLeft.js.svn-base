@@ -1,0 +1,22 @@
+$(function(){
+	var leftMenu = '<ul>';
+	leftMenu += '<li class="grxx"><a href="'+url+'/userInformation.html" title="个人信息" id="left_grxx">个人信息</a></li>';
+	leftMenu += '<li class="gzqy"><a href="'+url+'/followentErprise.html" title="关注企业" id="left_gzqy">关注企业</a></li>';
+	leftMenu += '<li class="fxjl"><a href="'+url+'/analysisRecord.html" title="分析记录" id="left_ffjl">分析记录</a></li>';
+	leftMenu += '<li class="zhsz"><a href="'+url+'/accountSettings.html" title="账号设置" id="left_zhsz">账号设置</a></li>';
+	leftMenu += '<ul>';
+	$("#countLeft").append(leftMenu);
+	var title = $(document).attr("title");
+	if(title=="个人信息"){
+		$("#left_grxx").addClass("hover");
+	}
+	if(title=="关注企业"){
+		$("#left_gzqy").addClass("hover");
+	}
+	if(title=="分析记录"){
+		$("#left_ffjl").addClass("hover");
+	}
+	if(title=="账号设置"){
+		$("#left_zhsz").addClass("hover");
+	}
+});

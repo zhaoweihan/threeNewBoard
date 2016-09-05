@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8">
+		<title>财务数据</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+		<link rel="stylesheet" type="text/css" href="css/businessDetails.css">
+	</head>
+
+	<body>
+
+		<div class="main">
+			<div class="main_center">
+				<!-- <div class="main_left">
+					<ul>
+						<li class="qyzl"><a href="javascript:;">企业资料</a></li>
+						<li class="gsgg"><a href="javascript:;">公司公告</a></li>
+						<li class="gbgd"><a href="javascript:;">股本股东</a></li>
+						<li class="cwsj"><a href="javascript:;" class="hover">财务数据</a></li>
+						<li class="fxfp"><a href="javascript:;">发行分配</a></li>
+						<li class="yqjc"><a href="javascript:;">舆情监测</a></li>
+						<li class="hyyj"><a href="javascript:;">行业研究</a></li>
+					</ul>
+				</div> -->
+				<div class="main_right">
+					<div class="right_dbox">
+						<!-- <div class="right_nav">
+							<div class="r_n_left">
+								<h2>中科软</h2>
+								<em>(430002)</em>
+								<a href="javascript:;">关注</a>
+								此处关注成功之后 给a标签添加class="on"
+							</div>
+							<div class="r_n_right"><a href="javascript:;" class="cwdb">财务指标对标分析</a><a href="javascript:;" class="wnldb">五能力对标分析</a></div>
+							<div class="clr"></div>
+						</div> -->
+						<div class="clr"></div>
+						<div class="main_r_center">
+							<div class="r_center_title"> <span>财务三表</span> </div>
+							<div class="r_center_box">
+								<div class="center_title"> 
+									<a href="javascript:void(0);" class="hover" data-index="0">资产负债表</a> 
+									<a href="javascript:void(0);" data-index="1">利润表</a> 
+									<a href="javascript:void(0);" data-index="2">现金流表</a> 
+								</div>
+								<div class="center_table">
+									<ul id="dataTable">
+										<!-- <li>
+											<span>科目/年度</span>
+											<span>a</span>
+											<span>b</span>
+											<span>c</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+										</li>
+										<li>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+										</li>
+										<li>
+											<span>2014-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+										</li>
+										<li>
+											<span>科目/年度</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+										</li>
+										<li>
+											<span>科目/年度</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+											<span>2015-12-31</span>
+										</li> -->
+									</ul>
+									<div class="clr"></div>
+								</div>
+							</div>
+							<!--杜邦分析 star-->
+							<div class="r_center_title" id="dupone"> <span>杜邦分析</span> </div>
+							<div class="dbfx_box clearfix" id="duPontAnalysisData">
+								<!-- <ul>
+									<li class="clearfix jzcsy">
+										<div class="dbfx_dbox">
+										<div class="list_box clearfix">
+										<div class="dblist">
+										<span>净资产收益率</span><b>24.86%</b>
+										</div>
+										</div>
+										</div>
+									</li>
+									<li class="clearfix shuline h_01"></li>
+									<li class="clearfix line01">
+										<div class="shuxian first"></div>
+										<div class="shuxian last"></div>
+									</li>
+									<li class="clearfix fist_li">
+									<div class="dbfx_dbox ">
+										<div class="list_box clearfix w860">
+										<div class="db_fuhao1"><em>1÷(1-</em></div>
+										<div class="dblist">
+										<span>资产负债率</span><b>79.47%</b>
+										</div>
+										<div class="db_fuhao"><em>)=</em></div>
+										<div class="dblist">
+										<span>权益乘数</span><b>4.87</b>
+										</div>
+										<div class="db_fuhao4"><em>X</em></div>
+										<div class="dblist">
+										<span>总资产收益率</span><b>5.70% </b>
+										</div>
+										</div>										
+										</div>	
+									</li>
+									<li class="clearfix shuline h_02"></li>
+									<li class="clearfix shuline h_03"></li>
+									<li class="clearfix shuline h_04"></li>
+									<li class="clearfix line02">
+										<div class="shuxian first"></div>
+										<div class="shuxian last"></div>
+									</li>
+									
+									<li class="clearfix line03">
+										<div class="shuxian first"></div>
+										<div class="shuxian last"></div>
+									</li>
+									<li class="clearfix line04">
+										<div class="shuxian first"></div>
+										<div class="shuxian last"></div>
+									</li>
+									<li class="clearfix">
+									<div class="dbfx_dbox ">
+										<div class="list_box clearfix w860">
+										<div class="dblist">
+										<span>负债总额/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao2"><em>÷</em></div>
+										<div class="dblist">
+										<span>资产总额/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao3"><em>÷</em></div>
+										<div class="dblist">
+										<span>所有者权益总额/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao3"><em></em></div>
+										<div class="dblist">
+										<span>销售净利率</span><b>0%</b>
+										</div>
+										<div class="db_fuhao3"><em>X</em></div>
+										<div class="dblist">
+										<span>总资产周转率</span><b>0%</b>
+										</div>
+										</div>										
+										</div>	
+									</li>
+									<li class="clearfix shuline h_05"></li>
+									<li class="clearfix shuline h_06"></li>
+									<li class="clearfix shuline h_07"></li>
+									<li class="clearfix line05">
+										<div class="shuxian first"></div>
+										<div class="shuxian last"></div>
+									</li>
+									<li class="clearfix line06">
+										<div class="shuxian first"></div>
+										<div class="shuxian last"></div>
+									</li>
+									<li class="clearfix line07">
+										<div class="shuxian first"></div>
+										<div class="shuxian last"></div>
+									</li>
+									<li class="clearfix">
+									<div class="dbfx_dbox ">
+										<div class="list_box clearfix">
+										<div class="dblist">
+										<span>流动负债/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao5"><em>+</em></div>
+										<div class="dblist">
+										<span>非流动负债/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao5"><em></em></div>
+										<div class="dblist">
+										<span>流动资产/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao5"><em>+</em></div>
+										<div class="dblist">
+										<span>主营业务利润率</span><b>0%</b>
+										</div>
+										<div class="db_fuhao5"><em></em></div>
+										<div class="dblist">
+										<span>净利润/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao5"><em>÷</em></div>
+										<div class="dblist">
+										<span>营业总收入/万</span><b>0</b>
+										</div>
+										</div>										
+										</div>	
+									</li>
+									<li class="clearfix shuli3">
+									<div class="dbfx_dbox ">
+										<div class="list_box clearfix">
+										<div class="dblist">
+										<span>货币资金/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao6"><em>+</em></div>
+										<div class="dblist">
+										<span>应收账款/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao6"><em>+</em></div>
+										<div class="dblist">
+										<span>存货/万</span><b>0</b>
+										</div>
+										
+									
+										
+										</div>										
+										</div>	
+									</li>
+									<li class="clearfix line08"></li>
+									<li class="clearfix shuli4">
+									<div class="dbfx_dbox ">
+										<div class="list_box clearfix">
+										<div class="dblist">
+										<span>营业总收入/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao6"><em>+</em></div>
+										<div class="dblist">
+										<span>总成本/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao6"><em>+</em></div>
+										<div class="dblist">
+										<span>其他利润/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao6"><em>+</em></div>
+										<div class="dblist">
+										<span>所得税/万</span><b>0</b>
+										</div>
+										
+									
+										
+										</div>										
+										</div>	
+									</li>
+									<li class="clearfix line09"></li>
+									<li class="clearfix line11"></li>
+									<li class="clearfix line10"></li>
+									<li class="clearfix shuli5">
+									<div class="dbfx_dbox ">
+										<div class="list_box clearfix">
+										<div class="dblist">
+										<span>营业成本/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao6"><em>+</em></div>
+										<div class="dblist">
+										<span>销售费用/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao6"><em>+</em></div>
+										<div class="dblist">
+										<span>管理费用/万</span><b>0</b>
+										</div>
+										<div class="db_fuhao6"><em>+</em></div>
+										<div class="dblist">
+										<span>财务费用/万</span><b>0</b>
+										</div>
+										
+									
+										
+										</div>										
+										</div>	
+									</li>
+									
+									
+									
+								</ul> -->
+								
+							</div>
+							<!--杜邦分析 end-->
+							<div class="clr"></div>
+							<!--行业地位 star-->
+							<div class="dataAnalysisTable" data-num="3" id="field">
+								<div class="table_title">
+									<p>二级行业分类：<span><i id="industry"></i>（共<i id="pageCount"></i>家）</span></p>
+									<div class="xuan_time" id="select">
+										<span>报告期</span>
+										<!--<div id="selectVal">2015-12-1</div>
+										<div class="click3"></div>
+										<ul id="selectList">
+											<li>2015-6-1</li>
+											<li>2015-7-1</li>
+											<li>2015-8-1</li>
+										</ul>-->
+										<select name="fieldRankSl">
+											<option value="2015-12-31" selected="selected">2015年12月</option>
+											<option value="2015-06-30">2015年6月</option>
+											<option value="2014-12-31">2014年12月</option>
+											<option value="2014-06-30">2014年6月</option>
+										</select>
+									</div>
+									<ul id="fieldRankBtns">
+										<li class="on">每股收益</li>
+										<li>每股净资产</li>
+										<li>每股现金流</li>
+										<li>净利润</li>
+										<li>营业收入</li>
+										<li>总资产</li>
+										<li>净资产收益率</li>
+										<li>股东权益比率</li>
+										<li>销售毛利率</li>
+										<li>总股本</li>
+									</ul>
+								</div>
+								<div class="sjb_table" id="fieldRankChart"></div>
+								<div class="quotationList" style="position:relative;float:left;top:102px;width: 876px">
+									<table border="1">
+										<thead>
+											<tr>
+												<th>&nbsp;排名&nbsp; </th>
+												<th>股票代码</th>
+												<th>&nbsp;股票简称&nbsp;</th>
+												<th>每股收益(元)</th>
+												<th>每股净资产(元)</th>
+												<th>每股现金流(元)</th>
+												<th>净利润(亿元)</th>
+												<th>营业收入(亿元)</th>
+												<th>总资产(亿元)</th>
+												<th>净资产收益率(%)</th>
+												<th>股东权益比率(%)</th>
+												<th>销售毛利率(%)</th>
+												<th>总股本(亿股)</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+								<div class="clr"></div>
+								<div class="quotationList fieldRankTableDiv">
+									<table border="1" id="fieldRankTable">
+										<thead>
+											<tr>
+												<th>&nbsp;排名&nbsp; </th>
+												<th>股票代码</th>
+												<th>&nbsp;股票简称&nbsp;</th>
+												<th>每股收益(元)</th>
+												<th>每股净资产(元)</th>
+												<th>每股现金流(元)</th>
+												<th>净利润(亿元)</th>
+												<th>营业收入(亿元)</th>
+												<th>总资产(亿元)</th>
+												<th>净资产收益率(%)</th>
+												<th>股东权益比率(%)</th>
+												<th>销售毛利率(%)</th>
+												<th>总股本(亿股)</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+							<!--行业地位 end-->
+							<!--财务分析 star-->
+							<div class="r_center_title"> <span>财务分析</span> </div>
+							<div class="cwfx_box" id="fiveAbility">
+								<!-- <h2>短期偿债能力</h2>
+								<ul>
+									<li><span>流动比率:</span>
+										<p>***</p>
+									</li>
+									<li><span>速动比率:</span>
+										<p>***</p>
+									</li>
+									<li><span>现金资产比率:</span>
+										<p>***</p>
+									</li>
+
+								</ul>
+								<h2>长期偿债能力</h2>
+								<ul>
+									<li><span>资产负债率:</span>
+										<p>***</p>
+									</li>
+									<li><span>产权比率:</span>
+										<p>***</p>
+									</li>
+									<li><span>利息偿付倍数:</span>
+										<p>***</p>
+									</li>
+
+								</ul>
+								<h2>运营能力</h2>
+								<ul>
+									<li><span>应收账款周转率:</span>
+										<p>***</p>
+									</li>
+									<li><span>存货周转率:</span>
+										<p>***</p>
+									</li>
+									<li><span>流动资产周转率:</span>
+										<p>***</p>
+									</li>
+									<li><span>固定资产周转率:</span>
+										<p>***</p>
+									</li>
+									<li><span>总资产周转率:</span>
+										<p>***</p>
+									</li>
+								</ul>
+								<h2>盈利能力</h2>
+								<ul>
+									<li><span>营业利润率:</span>
+										<p>***</p>
+									</li>
+									<li><span>成本费用利润率:</span>
+										<p>***</p>
+									</li>
+									<li><span>盈余现金保障倍数:</span>
+										<p>***</p>
+									</li>
+									<li><span>总资产报酬率:</span>
+										<p>***</p>
+									</li>
+									<li><span>净资产收益率:</span>
+										<p>***</p>
+									</li>
+									<li><span>资本收益率:</span>
+										<p>***</p>
+									</li>
+									<li><span>市盈率:</span>
+										<p>***</p>
+									</li>
+								</ul>
+								<h2>发展能力</h2>
+								<ul>
+									<li><span>营业收入增长率:</span>
+										<p>***</p>
+									</li>
+									<li><span>资本保值增值率:</span>
+										<p>***</p>
+									</li>
+									<li><span>资本积累率:</span>
+										<p>***</p>
+									</li>
+									<li><span>总资产增长率:</span>
+										<p>***</p>
+									</li>
+									<li><span>营业利润增长率:</span>
+										<p>***</p>
+									</li>
+									<li><span>营业收入三年平均增长率:</span>
+										<p>***</p>
+									</li>
+									<li><span>三年资本平均增长率:</span>
+										<p>***</p>
+									</li>
+								</ul> -->
+
+							</div>
+							<!--财务分析 end-->
+
+						</div>
+
+					</div>
+
+				</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+
+		</div>
+		<script src="http://cdn.bootcss.com/echarts/3.2.0/echarts.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script src="js/head2.js"></script>
+		<script src="js/footer.js"></script>
+		<script src="js/detailCommon.js"></script>
+		<script type="text/javascript" src="js/financialData.js" ></script>
+		<script src="js/user.js"></script>
+		
+	</body>
+
+</html>

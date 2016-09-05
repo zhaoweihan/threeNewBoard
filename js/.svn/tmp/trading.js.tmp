@@ -1,0 +1,662 @@
+var cache = [];
+var key = 0
+var series = []; //财务对标图表数据参数
+$(function() {
+	$("#searchStock").on("keyup", function() {
+		if ($(this).val().length <= 2) {
+			cache = [];
+		}
+
+	});
+	$("#searchStock").autocomplete({
+		minLength: 2,
+		source: function(request, response) {
+			if (cache.length == 0) { //判断缓存里面是否有值，没有就去请求
+				console.log("请求");
+				$.ajax({
+					type: "post",
+					url: url + "/enterprise/findCodeName.do",
+					async: false,
+					data: {
+						codeName: $.trim($("#searchStock").val())
+					},
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader("UU", $.cookie("UU"));
+						xhr.setRequestHeader("phone", $.cookie("phone"));
+					},
+					success: function(data) {
+						if (data.retCode == 0000) {
+							if (data.retData == null) {
+								return false;
+							}
+							cache = data.retData;
+							var arr = [];
+							$.each(data.retData, function(i, item) {
+								var obj = {
+									label: item.companyForShort + "（" + item.stockCode + "）",
+									value: item.companyForShort + "（" + item.stockCode + "）",
+									name: item.companyForShort,
+									code: item.stockCode
+								}
+								arr.push(obj);
+							});
+							response(arr);
+						} else {
+							console.log(data.retMsg);
+						}
+					}
+				});
+			} else { //缓存有值，从缓存中拿数据
+				console.log("缓存");
+				var arrs = [];
+				$.each(cache, function(i, item) {
+					var objs = {
+						label: item.companyForShort + "（" + item.stockCode + "）",
+						value: item.companyForShort + "（" + item.stockCode + "）",
+						name: item.companyForShort,
+						code: item.stockCode
+					}
+					arrs.push(objs);
+				});
+				response(arrs);
+			}
+
+		},
+		delay: 500,
+		select: function(event, ui) {
+			var item = ui.item;
+			$("#searchName").val(item.name);
+			$("#searchCode").val(item.code);
+		}
+	});
+
+	//添加企业
+	$("#addCompany").on("click", function() {
+		if ($("#searchName").val() != "" && $("#searchCode").val() != "" && $("li.tj_gs").size() < 3) {
+			var name = $("#searchName").val();
+			var code = $("#searchCode").val();
+			var li = $("<li class='tj_gs'>");
+			li.attr("data-num", code);
+			var span = $("<span>");
+			span.html(name + " " + code);
+			var a = $("<a href='javascript:;'>");
+			var img = $("<img src='images/cha.jpg' width='37' height='42'>");
+			a.html(img);
+			li.append(span);
+			li.append(a);
+			a.on("click", function() {
+				$(this).parent(".tj_gs").remove();
+			});
+			$("#companyList").append(li);
+			$("#searchStock").val("").focus();
+			cache = [];
+		} else if ($("#searchName").val() == "" || $("#searchCode").val() == "") {
+			alert("请正确选择企业");
+		} else if ($("li.tj_gs").size() >= 3) {
+			alert("最多选取三家企业进行比较");
+		}
+	});
+
+	//生成财务对标图表数据
+	$("#cwfx").on("click", function() {
+		chartsData("bar");
+	});
+	//五能力图标分析
+	$("#fiveChartBtn").on("click", function() {
+		fivePower();
+	});
+	$("#startDuPont").on("click", function() {
+		duPont();
+	});	
+});
+
+/**
+ * 交易行情类型切换
+ * @param tradingType
+ */
+function changeTrding(tradingType) {
+	$("#tradingTable").html("");
+	if (tradingType == -1) {
+		$("#quotation_tab").children().eq(0).attr("class", "hover");
+		$("#quotation_tab").children().eq(1).attr("class", "");
+		$("#quotation_tab").children().eq(2).attr("class", "");
+	} else if (tradingType == 1) {
+		$("#quotation_tab").children().eq(0).attr("class", "");
+		$("#quotation_tab").children().eq(1).attr("class", "hover");
+		$("#quotation_tab").children().eq(2).attr("class", "");
+	} else if (tradingType == 2) {
+		$("#quotation_tab").children().eq(0).attr("class", "");
+		$("#quotation_tab").children().eq(1).attr("class", "");
+		$("#quotation_tab").children().eq(2).attr("class", "hover");
+	}
+	findTrading(tradingType, "tradingAmount", -1, null, 12);
+}
+/**
+ * 排序方式
+ * @param sortParam 排序字段
+ * @param sortType 排序方式：1(升序)<or>-1(降序)
+ */
+function changSort(sortParam, sortType) {
+	var tradingType_index = $("#quotation_tab").find("a.hover").index();
+	var tradingType = $("#quotation_tab").children().eq(tradingType_index).attr("data-tag");
+	$("#tradingTable").html("");
+	findTrading(tradingType, sortParam, sortType, null, 12);
+}
+/**
+ * 更多
+ */
+function moreTradingDate() {
+	var tradingType_index = $("#quotation_tab").find("a.hover").index();
+	var tradingType = $("#quotation_tab").children().eq(tradingType_index).attr("data-tag");
+	var sort_index = $("#tradingTableTr").find("th.sort").index();
+	var sortParam = $("#tradingTableTr").children().eq(sort_index).children().attr("data-tag");
+	var sortTypeClass = $("#tradingTableTr").children().eq(sort_index).children().attr("class");
+	var sortType = -1;
+	if (sortTypeClass == "up_s") {
+		sortType = 1;
+	}
+	var pageNum = $("#more").attr("data-pageNum");
+	var pageSize = $("#more").attr("data-pageSize");
+	var pageTotal = $("#more").attr("data-pageTotal");
+	pageNum = Number(pageNum) + 1;
+	if (pageNum > pageTotal) {
+		return false;
+	}
+	findTrading(tradingType, sortParam, sortType, pageNum, pageSize)
+}
+/**
+ * 交易行情数据
+ * @param tradingType 交易类型
+ * @param sortParam 排序字段
+ * @param sortType 排序方式：1(升序)<or>-1(降序)
+ * @param pageNum 页数
+ * @param pageSize 每页的条数
+ */
+function findTrading(tradingType, sortParam, sortType, pageNum, pageSize) {
+	$.ajax({
+		type: "post",
+		//		url:url+"/trading/find.do",
+		url: "/trading/find.do",
+		async: true,
+		data: {
+			tradingType: tradingType,
+			sortParam: sortParam,
+			sortType: sortType,
+			pageNum: pageNum,
+			pageSize: pageSize
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("uu");
+		},
+		success:function(data){
+			if (data.retCode==0000) {
+				var result=data.retData
+				if(result!=null){
+					$("#more").attr("data-pageNum",result.pageNum);
+					$("#more").attr("data-pageSize",result.pageSize);
+					$("#more").attr("data-pageTotal",result.pageCount);
+					var tradingList=result.rows;
+					var html='';
+					for(var i=0;i<tradingList.length;i++){
+						var trading=tradingList[i];
+						html+='<tr>';
+						html+='<td class="daima"><a href="javascript:void(0);">'+trading.stockCode+'</a></td>';
+						html+='<td class="mingcheng"><a href="javascript:void(0);">'+trading.stockName+'</a></td>';
+						var newPrice="--";
+						if(trading.newPrice!=null){
+							newPrice=trading.newPrice;
+						}
+						html += '<td class="zxj black">' + newPrice + '</td>';
+						var changeAmount = "--";
+						if (trading.changeAmount != null) {
+							changeAmount = trading.changeAmount;
+						}
+						html += '<td class="zde black">' + changeAmount + '</td>';
+						var priceChangeRatio = "--";
+						if (trading.priceChangeRatio != null) {
+							priceChangeRatio = trading.priceChangeRatio;
+						}
+						html += '<td class="zdf black">' + priceChangeRatio + '</td>';
+						var openPrice = "--";
+						if (trading.openPrice != null) {
+							openPrice = trading.openPrice;
+						}
+						html += '<td class="jk">' + openPrice + '</td>';
+						var highPrice = "--";
+						if (trading.highPrice != null) {
+							highPrice = trading.highPrice;
+						}
+						html += '<td class="zuigao">' + highPrice + '</td>';
+						var lowPrice = "--";
+						if (trading.lowPrice != null) {
+							lowPrice = trading.lowPrice;
+						}
+						html += '<td class="zuidi">' + lowPrice + '</td>';
+						var tradingVolume = "--";
+						if (trading.tradingVolume != null) {
+							tradingVolume = trading.tradingVolume;
+						}
+						html += '<td class="cjlwg">' + (tradingVolume / 10000).toFixed(2) + '</td>';
+						var tradingAmount = "--";
+						if (trading.tradingAmount != null) {
+							tradingAmount = trading.tradingAmount;
+						}
+						html += '<td class="cjjew black">' + (tradingAmount / 10000).toFixed(2) + '</td>';
+						html += '</tr>';
+					}
+					$("#tradingTable").append(html);
+				}
+			} else {
+				alert(data.retMsg);
+			}
+		}
+	});
+}
+
+function search(e) {
+	$.ajax({
+		type: "post",
+		url: url + "/enterprise/findCodeName.do",
+		async: false,
+		data: {
+			codeName: $.trim($("#searchStock").val())
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				cache = data.retData;
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+
+function chartsData(type) {
+	var stockCodes = [];
+	$("li.tj_gs").each(function() { //遍历股票代码
+		stockCodes.push($(this).attr("data-num"));
+	});
+	if (stockCodes.length == 0) { //判断是否选择了至少一个公司
+		alert("请选择至少一家公司");
+		return false;
+	}
+	var stockCodeStr = stockCodes.join(","); //股票代码
+	var scale = $("input[name='scaleBk']:checked").val();
+	var operate = $("input[name='operateBk']:checked").val();
+	var other = $("input[name='otherBk']:checked").val();
+	if (scale == undefined && operate == undefined && other == undefined) {
+		alert("只少选择一项进行比对");
+		return false;
+	}
+	scale == undefined ? scale = "" : scale = scale;
+	operate == undefined ? operate = "" : operate = "," + operate;
+	other == undefined ? other = "" : other = "," + other;
+	var target = scale + operate + other;
+	$.ajax({
+		type: "post",
+		url: url + "/finance/findIndicators.do",
+		async: true,
+		data: {
+			date: "2015-06-30",
+			stockCodes: stockCodeStr,
+			target: target,
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				var result = data.retData;
+				targets = target.split(",");
+				var ld = []; //图标顶端标注数据
+				$.each(targets, function(index, item) {
+					//用input 的 name 匹配展示的项目类别
+					var name = targets[index].substring(0, targets[index].length - 2);
+					var nameDetail = $("label[data-name='" + targets[index] + "']").text();
+					ld.push(nameDetail); //插入标注数据
+					//拼出 数据图表要用的 series
+					switch (name) {
+						case "scale":
+							var d1 = [];
+							$.each(result, function(i, flag) {
+								flag.scale == null ? flag.scale = 0 : null;
+								d1.push(flag.scale);
+							});
+							var obj1 = {
+								name: nameDetail,
+								type: type,
+								data: d1,
+								label: {
+									normal: {
+										show: true,
+										position: 'top'
+									}
+								}
+							};
+							series.push(obj1);
+							break;
+						case "operate":
+							var d2 = [];
+							$.each(result, function(i, flag) {
+								flag.operate == null ? flag.operate = 0 : null;
+								d2.push(flag.operate);
+							});
+							var obj2 = {
+								name: nameDetail,
+								type: type,
+								data: d2,
+								label: {
+									normal: {
+										show: true,
+										position: 'top'
+									}
+								}
+							};
+							series.push(obj2);
+							break;
+						case "other":
+							var d3 = [];
+							$.each(result, function(i, flag) {
+								flag.other == null ? flag.other = 0 : null;
+								d3.push(flag.other);
+							});
+							var obj3 = {
+								name: nameDetail,
+								type: type,
+								data: d3,
+								label: {
+									normal: {
+										show: true,
+										position: 'top'
+									}
+								}
+							};
+							series.push(obj3);
+							break;
+						default:
+
+							break;
+					}
+				});
+				$(".dataAnalysisTable[data-num='1']").slideDown(function() {
+					showCharts(series, "财务指标对标", stockCodes, ld, "");
+				});
+				$("#columnChart").on("click", function() { //柱形图
+					$(this).addClass("on").siblings(".chartBtn").removeClass("on");
+					$.each(series, function(i, item) {
+						series[i].label.normal.position = "top";
+					});
+					showCharts(series, "财务指标对标", stockCodes, ld, "");
+				});
+				$("#barChart").on("click", function() { //条形图
+					$(this).addClass("on").siblings(".chartBtn").removeClass("on");
+					$.each(series, function(i, item) {
+						series[i].label.normal.position = "right";
+					});
+					showCharts(series, "财务指标对标", "", ld, stockCodes);
+				});
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+
+function showCharts(series, title, xAxis, ld, yAxis) {
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('chartsData'));
+
+	// 指定图表的配置项和数据
+	var option = {
+		title: {
+			text: title
+		},
+		tooltip: {},
+		legend: {
+			data: ld,
+			align: 'auto'
+		},
+		xAxis: {
+			data: xAxis
+		},
+		yAxis: {
+			data: yAxis
+		},
+		series: series
+	};
+
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+}
+
+function fivePower() {
+	//股票代码
+	var stockCodes = [];
+	var stockCodeStr = '';
+	var companyName = [];
+	$("li.tj_gs").each(function() { //遍历股票代码
+		stockCodes.push($(this).attr("data-num"));
+		//companyName.push($(this).attr("data-name"));
+	});
+	stockCodeStr = stockCodes.join(",");
+	if (stockCodes.length == 0) { //判断是否选择了至少一个公司
+		alert("请选择至少一家公司");
+		return false;
+	}
+	if ($("input[name='fiveName']:checked").val() == undefined) { //判断是否选择了一种能力
+		alert("请至少选择一种能力进行比对");
+		return false;
+	}
+	//判断是那种能力比对
+	var fiveName = $("input[name='fiveName']:checked").val();
+	var nextUrl = '';
+	var text = '';
+	var indicator = []; //雷达图 坐标轴刻度
+	switch (Number(fiveName)) {
+		case 1: //短期偿债能力
+			indicator = [{
+				name: "流动比率"
+			}, {
+				name: "速动比率"
+			}, {
+				name: "现金资产比率"
+			}];
+			text = '短期偿债能力';
+			nextUrl = '/finance/findShortTerm.do';
+			break;
+		case 2: //长期偿债能力
+			indicator = [{
+				name: "资产负债率"
+			}, {
+				name: "产权比率"
+			}, {
+				name: "负债与有形净资产比率"
+			}, {
+				name: "利息保障倍数"
+			}];
+			text = '长期偿债能力';
+			nextUrl = '/finance/findLongTerm.do';
+		case 3: //运营能力
+			indicator = [{
+				name: "销售收入"
+			}, {
+				name: "应收账款"
+			}, {
+				name: "应收账款周转率"
+			}, {
+				name: "存货周转率"
+			}, {
+				name: "总资产周转率"
+			}, {
+				name: "固定资产周转率"
+			}];
+			text = '运营能力';
+			nextUrl = '/finance/findOperation.do';
+		case 4: //盈利能力
+			indicator = [{
+				name: "营业利润"
+			}, {
+				name: "营业收入"
+			}, {
+				name: "营业利润率"
+			}, {
+				name: "营业毛利率"
+			}, {
+				name: "资产净利率"
+			}, {
+				name: "净资产收益率"
+			}, {
+				name: "资本保值增值率"
+			}];
+			text = '盈利能力';
+			nextUrl = '/finance/findProfit.do';
+		case 5: //发展能力
+			indicator = [{
+				name: "上期净利润"
+			}, {
+				name: "本期净利润"
+			}, {
+				name: "净利润增长率"
+			}, {
+				name: "资本积累率"
+			}, {
+				name: "总资产增长率"
+			}, {
+				name: "固定资产成新率"
+			}, {
+				name: "三年利润平均增长率"
+			}, {
+				name: "三年资本平均增长率"
+			}];
+			text = '发展能力';
+			nextUrl = '/finance/findProgress.do';
+		default:
+			break;
+	}
+	$.ajax({
+		type: "post",
+		url: url + nextUrl,
+		async: true,
+		data: {
+			date: "2015-12-31",
+			stockCodes: stockCodeStr
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				$(".dataAnalysisTable[data-num='2']").slideDown(function() {
+					if (data.retData != null) {
+						var result = data.retData;
+						var fiveData = []; //图标参数配置项数组
+						$.each(result, function(index, flag) {
+							if (flag != null) {
+								var values = []; //存放各项数据的数组
+								var fobj={};
+								switch (Number(fiveName)) {
+									case 1: //短期偿债能力
+										values.push(flag.liquidityRatio); //流动比率
+										values.push(flag.quickRatio); //速动比率
+										values.push(flag.cashAssetsRatio); //现金资金比率
+										fobj = {
+											value: values,
+											name: flag.stockCode //需要把股票代码改成 公司名称
+										}
+										fiveData.push(fobj);
+										companyName.push(flag.stockCode);//需要把股票代码改成 公司名称
+										break;
+									case 2: //长期偿债能力
+										values.push(flag.assetLiabilityRatio);
+										values.push(flag.interestCover);
+										values.push(flag.cashAssetsRatio);
+										fiveData = {
+											value: values,
+											name: flag.stockCode //需要把股票代码改成 公司名称
+										}
+									case 3: //运营能力
+										
+									case 4: //盈利能力
+										
+									case 5: //发展能力
+										
+									default:
+										break;
+								}
+
+							}
+						});
+						showFiveCharts(text, companyName, indicator, fiveData);
+					}
+
+				});
+
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+
+}
+
+function showFiveCharts(text, legend, indicator, data) {
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('fivePower'));
+
+	// 指定图表的配置项和数据
+	option = {
+		title: {
+			text: text,
+			left:'50'
+		},
+		tooltip: {},
+		legend: {
+			show:true,
+			right: '50',
+			data: legend
+		},
+		radar: {
+			// shape: 'circle',
+			indicator: indicator
+		},
+		series: [{
+			name: '五能力对比',
+			type: 'radar',
+			// areaStyle: {normal: {}},
+			data: data
+		}]
+	};
+
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+}
+
+//杜邦分析
+function duPont(){
+	$.ajax({
+		type:"post",
+		url:url+"/finance/findDuPontAnalysis.do",
+		async:true,
+		data:{
+			date:'2015-06-31',
+			stockCode:$("li.tj_gs").first().attr("data-num")//默认取第一个
+		},
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success:function(data){
+			if (data.retCode==0000) {
+				$(".dataAnalysisTable[data-num='4']").slideDown();
+			} else{
+				console.log(data.retMsg);
+			}
+		}
+	});
+}

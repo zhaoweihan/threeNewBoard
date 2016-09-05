@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>前后台联调页面</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link href="//cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				font-family: "微软雅黑";
+			}
+		</style>
+	</head>
+
+	<body>
+		<form>
+			<input type="search" id="search" style="width: 200px;" />
+			<div class="data-radio">
+				<input type="radio" id="zzc" value="1" name="tc" />
+				<label for="zzc" class="radio"></label>
+				<label class="radioWord" for="zzc">总资产</label>
+			</div>
+			<div class="data-radio">
+				<input type="radio" id="zzy" value="2" name="tc" />
+				<label for="zzy" class="radio"></label>
+				<label class="radioWord" for="zzy">总行情</label>
+			</div>
+			<div class="data-radio">
+				<input type="radio" id="zzt" value="3" name="tc" />
+				<label for="zzt" class="radio"></label>
+				<label class="radioWord" for="zzt">总投资</label>
+			</div>
+			<br />
+			
+			<div class="data-checkbox">
+				<input type="checkbox" id="ccc" value="1" name="aaa" />
+				<label for="ccc" class="checkbox"></label>
+				<label class="checkboxWord" for="ccc">总资产</label>
+			</div>
+			<div class="data-checkbox">
+				<input type="checkbox" id="awe" value="2" name="aaa" />
+				<label for="awe" class="checkbox"></label>
+				<label class="checkboxWord" for="awe">总行情</label>
+			</div>
+			<div class="data-checkbox">
+				<input type="checkbox" id="qwr" value="3" name="aaa" />
+				<label for="qwr" class="checkbox"></label>
+				<label class="checkboxWord" for="qwr">总投资</label>
+			</div>
+		</form>
+		<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				//自动补全
+				var cache = [];
+				var key=0
+				$("#search").on("keydown", function() {
+					if ($(this).val().length >= 2&&key==0) {
+						key=1;
+						cache = [{
+							label: "阿里巴巴（100001）",
+							value: "阿里巴巴（100001）",
+							searchV: "阿里巴巴"
+						}, {
+							label: "腾讯网（100022）",
+							value: "腾讯网（100022）",
+							searchV: "腾讯网"
+						}, {
+							label: "美团外卖（100033）",
+							value: "美团外卖（100033）",
+							searchV: "美团外卖"
+						}, {
+							label: "圣康控股（100055）",
+							value: "圣康控股（100055）",
+							searchV: "圣康控股"
+						}];
+						$(this).autocomplete({
+							minLength: 2,
+							source: cache,
+							delay: 500,
+							select: function(event, ui) {
+								var item = ui.item;
+								console.log(item);
+							}
+						});
+					}else if($(this).val().length <2){
+						cache=[];
+						key=0;
+					}
+				});
+			});
+		</script>
+		<div id="page" class="pages pagination">
+		<table cellspacing="0" cellpadding="0" border="0">
+				<tbody>
+						<tr>
+								<td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain l-btn-disabled l-btn-plain-disabled" group="" id=""><span class="l-btn-left l-btn-icon-left">首页</span></a></td>
+								<td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain l-btn-disabled l-btn-plain-disabled" group="" id=""><span class="l-btn-left l-btn-icon-left">上一页</span></a></td>
+								<td class="pagination-links"><a href="javascript:void(0)" class="pagination-link l-btn l-btn-small l-btn-plain l-btn-selected l-btn-plain-selected" group="" id=""><span class="l-btn-left"><span class="l-btn-text">1</span></span></a><a href="javascript:void(0)" class="pagination-link l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left"><span class="l-btn-text">2</span></span></a><a href="javascript:void(0)" class="pagination-link l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left"><span class="l-btn-text">3</span></span></a><a href="javascript:void(0)" class="pagination-link l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left"><span class="l-btn-text">4</span></span></a><a href="javascript:void(0)" class="pagination-link l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left"><span class="l-btn-text">5</span></span></a><a href="javascript:void(0)" class="pagination-link l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left"><span class="l-btn-text">6</span></span></a><a href="javascript:void(0)" class="pagination-link l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left"><span class="l-btn-text">7</span></span></a></td>
+								<td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left l-btn-icon-left">下一页</span></a></td>
+								<td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left l-btn-icon-left">末页</span></a></td>
+								<td><span style="padding-left:6px;">当前</span></td>
+								<td><input type="text" size="2" value="1" class="pagination-num"></td>
+								<td><span style="padding-right:6px;">共 2809 页</span></td>
+						</tr>
+				</tbody>
+		</table>
+		<div class="pagination-info"></div>
+		<div style="clear:both;"></div>
+</div>
+	</body>
+
+</html>

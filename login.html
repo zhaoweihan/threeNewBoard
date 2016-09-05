@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>登录</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="css/login.css"/>
+	</head>
+	<body>
+		<div class="content">
+			<div class="loginContent">
+				<form id="loginForm" >
+					<h2>会员登录</h2>
+					<div class="hr"></div>
+					<div class="inputBox phoneBox">
+						<input type="text" name="phoneNumber" id="phoneNumber" placeholder="请输入您的手机号" maxlength="11" />
+					</div>
+					<div class="inputBox pwdBox">
+						<input type="password" name="password" id="password" placeholder="6-16位数字字母组合" maxlength="16" />
+					</div>
+					<p id="loginMsg"></p>
+					<div class="third">
+						<input type="checkbox"  checked="checked" id="savePwd" />
+						<label for="savePwd">记住用户名和密码</label>
+						<a href="retrievePassword.html" class="rp">忘记密码？</a>
+						<a href="register.html" class="rg">马上注册</a>
+					</div>
+					<button type="submit">立即登录</button>
+				</form>
+			</div>
+		</div>
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/header.js" ></script>
+		<script type="text/javascript" src="js/login.js" ></script>
+		<script type="text/javascript" src="js/footer.js" ></script>
+	</body>
+</html>

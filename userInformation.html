@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>个人信息</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+		<link rel="stylesheet" type="text/css" href="css/businessDetails.css">
+		<link rel="stylesheet" href="css/register.css" />
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+	</head>
+
+	<body style="background: #fff;">
+		<div class="main">
+			<div class="main_center">
+				<div class="main_left main_left2">
+					<ul>
+						<li class="grxx"><a href="userInformation.html"class="hover">个人信息</a></li>
+						<li class="gzqy"><a href="followentErprise.html">关注企业</a></li>
+						<li class="fxjl"><a href="analysisRecord.html">分析记录</a></li>
+						<li class="zhsz"><a href="accountSettings.html">账号设置</a></li>
+					</ul>
+				</div>
+				<div class="main_right">
+					<div class="right_dbox">
+						<form action="" id="userInfoForm" method="post" >
+							<div class="main_r_center">
+								<div class="r_center_title"> <span>个人信息</span> </div>
+								
+								
+								<div class="user_box">
+									<ul>
+										<input id="phoneNumber" type="hidden"/>
+										<li class="clearfix"><span>姓名</span><input id="userNameMsg" type="text" maxlength="10" placeholder="请输入姓名"/></li>
+										<li class="clearfix"><span>工作单位</span><input id="employer" type="text" maxlength="25" placeholder="请输入工作单位"/></li>
+										<li class="clearfix"><span>职位</span><input id="position" type="text" maxlength="20" placeholder="请输入职位"/></li>
+										<li class="clearfix addhy"><span>关注行业</span><input id="industryInfo" readonly="readonly" type="text" placeholder="请选择行业"/><a href="javascript:;" id="addhy">添加行业</a></li>
+										<li class="clearfix"><span>邮箱</span><input id="email" name="email" type="text" placeholder="请输入邮箱"/></li>
+										<li class="clearfix"><span>微信号</span><input id="weChat" type="text" placeholder="请输入微信号"/></li>
+									</ul>
+									<div class="submt_btn"><a href="javascript:;" id="saveUserInfo">保存</a></div>
+								</div>
+						
+							</div>
+						</form>
+						
+						<div class="clr"></div>
+						
+
+					</div>
+
+				</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+
+		</div>
+		<!--关注行业-->
+			<div class="followIndustry fixe">
+				<div class="title">
+					<p>你关注的行业</p>
+				</div>
+				<div class="fiBox">
+					<p>请选择您关注的行业（最多可选10个）</p>
+					<ul id="TradeList">
+					</ul>
+				</div>
+				<div class="clr"></div>
+					<button type="button" id="finish">完 成</button>
+			</div>
+			
+		<!--关注行业end-->	
+		<div class="tcbackground"></div>
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+		<!-- 分页 -->
+		<script type="text/javascript" src="js/easy_ui/jquery.parser.js"></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.linkbutton.js"></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.pagination.js"></script>
+		
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/head2.js" ></script>
+		<script src="js/footer.js"></script>
+		<script src="js/userinfo.js"></script>
+		<script src="js/user.js"></script>
+	</body>
+</html>

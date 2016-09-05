@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>注册</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/register.css" />
+	</head>
+
+	<body>
+		<div class="tcbackground"></div>
+		<div class="regContent">
+			<!--注册-->
+			<div class="regBox">
+				<div class="top">
+					<h3>注册圣康研究院，让投研更简单</h3>
+					<a href="login.html">使用已有账号登录</a>
+				</div>
+				<form id="registerForm">
+					<div class="left-top">
+						<ul>
+							<li>
+								<span>手机号码：</span>
+								<input type="text" name="phoneNumber" maxlength="11" id="phoneNumber" placeholder="请输入手机号" />
+							</li>
+							<li>
+								<span>验证码：</span>
+								<input type="text" name="verifyNum" id="verify_num" maxlength="4" placeholder="请输入验证码" />
+								<i><img src="" alt="验证码" id="VerifyNumImg"/></i>
+							</li>
+							<li>
+								<span>手机验证码：</span>
+								<input type="text" name="verificationCode" maxlength="6" id="verificationCode" placeholder="请输入手机验证码" />
+								<button type="button" id="vCodeBtn">获取验证码</button>
+							</li>
+							<li>
+								<span>密码：</span>
+								<input type="password" name="password" id="password" maxlength="16" placeholder="建议使用两种字符组合" />
+							</li>
+							<li>
+								<span>确认密码：</span>
+								<input type="password" name="rePassword" id="rePassword" maxlength="16" placeholder="请再次输入密码" />
+							</li>
+						</ul>
+					</div>
+					<div class="left-bottom">
+						<ul>
+							<li>
+								<p>完善个人详细信息，以便提供更精准的服务（选填）</p>
+							</li>
+							<li>
+								<span>姓名：</span>
+								<input type="text" id="userName" maxlength="10" />
+							</li>
+							<li>
+								<span>工作单位：</span>
+								<input type="text" id="employer" maxlength="25" />
+							</li>
+							<li>
+								<span>职位：</span>
+								<input type="text" id="position" maxlength="20" />
+							</li>
+							<li>
+								&nbsp;&nbsp;<span></span>
+								<input type="checkbox" id="userCheckbox" checked="checked" />
+								<em>我已阅读并同意<a href="javascript:;" id="xieyi">《圣康研究院用户注册协议》</a></em>
+							</li>
+						</ul>
+						<button type="submit" id="registerSubmit">注 册</button>
+					</div>
+				</form>
+				<div class="right"></div>
+			</div>
+			<!--资料补全-->
+			<div class="profileCompletion" style="display: none;">
+				<div class="title">
+					<p>个人资料补全</p>
+				</div>
+				<div class="middle">
+					<p>请选择您的身份（单选）</p>
+					<ul>
+						<li>
+							<div class="data-radio">
+								<input type="radio" id="r1" value="投资经理" name="identity" />
+								<label for="r1" class="radio"></label>
+								<label class="radioWord" for="r1">我是投资经理</label>
+							</div>
+						</li>
+						<li>
+							<div class="data-radio">
+								<input type="radio" id="r2" value="投资总监" name="identity" />
+								<label for="r2" class="radio"></label>
+								<label class="radioWord" for="r2">我是投资总监</label>
+							</div>
+						</li>
+						<li>
+							<div class="data-radio">
+								<input type="radio" id="r3" value="投资公司高管" name="identity" />
+								<label for="r3" class="radio"></label>
+								<label class="radioWord" for="r3">我是投资公司高管</label>
+							</div>
+						</li>
+						<li>
+							<div class="data-radio">
+								<input type="radio" id="r4" value="其他" name="identity" />
+								<label for="r4" class="radio"></label>
+								<label class="radioWord" for="r4">其他</label>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="down">
+					<form onsubmit="return false" id="downForm">
+						<ul>
+							<li>
+								<span>头像：</span>
+								<div id="view"></div>
+								<label for="files1" class="uploadBtn">上 传</label>
+								<input id="files1" name="image_file" type="file" style="display: none;">
+								<!--<input type="hidden" id="image_hidden"/>-->
+							</li>
+							<li>
+								<span>性别：</span>
+								<div class="data-radio">
+									<input type="radio" id="man" value="男" name="sex" />
+									<label for="man" class="radio"></label>
+									<label class="radioWord" for="man">男</label>
+								</div>
+								<div class="data-radio">
+									<input type="radio" id="woman" value="女" name="sex" />
+									<label for="woman" class="radio"></label>
+									<label class="radioWord" for="woman">女</label>
+								</div>
+							</li>
+							<li>
+								<span>年龄：</span>
+								<input type="number" id="age" name="age" max="99"/>
+							</li>
+							<li>
+								<span>邮箱：</span>
+								<input type="text" id="email" name="email"/>
+							</li>
+							<li>
+								<span>微信：</span>
+								<input type="text" id="wechat" maxlength="25"/>
+							</li>
+						</ul>
+						<button type="button" id="next">下一步</button>
+					</form>
+				</div>
+			</div>
+			<!--关注行业-->
+			<div class="followIndustry" style="display: none">
+				<div class="title">
+					<p>你关注的行业</p>
+				</div>
+				<div class="fiBox">
+					<p>请选择您关注的行业（最多可选10个）</p>
+					<ul id="TradeList"></ul>
+				</div>
+				<div class="clr"></div>
+				<button type="button" id="finish">完 成</button>
+			</div>
+		</div>
+		<!--头像裁剪窗口-->
+		<div class="img_box">
+			<div id="close"></div>
+			<div id="clipArea"></div>
+			<button class="clipBtn" id="reselect">重新选取</button>
+			<button class="clipBtn" id="clipBtn">保存</button>
+		</div>
+		<!--注册协议-->
+		<div class="usre_a_box">
+				<div class="qr_title"><span>用户协议</span><a href="javascript:;" id="user_cha">X</a></div>
+			<div class="user_agree">
+
+				
+		<p>一、言论</p> 　　
+<p>您必须对自己在网上的行为承担法律责任。金衡财富的记录有可能作为您违反法律的证据。根据中华人民共和国《互联网电子公告服务管理规定》第九条，您不得在金衡财富中发布含有下列内容之一的信息： 　</p> 　　　
+<p>(1) 反对宪法所确定的基本原则的。 　　</p> 　　
+<p>(2) 危害国家安全，泄露国家秘密，破坏国家统一的。 　　</p> 　　
+<p>(3) 颠覆国家政权，推翻社会主义制度的。 　　</p> 　　
+<p>(4) 损害国家荣誉和利益的。 　　</p> 　　
+<p>(5) 煽动民族仇恨、民族歧视，破坏民族团结的。 　　</p> 　　
+<p>(6) 破坏国家宗教政策，宣扬邪教和封建迷信的。 　　</p> 　　
+<p>(7) 散布谣言，捏造或歪曲事实，扰乱社会秩序，破坏社会稳定的。 　　</p> 　　
+<p>(8) 散布迷信、淫秽、色情、赌博、暴力、凶杀、恐怖或者教唆犯罪的。 　　</p> 　　
+<p>(9) 侮辱或者诽谤他人，侵害他人合法权益的。 　　</p> 　　
+<p>(10) 进行商业广告行为的。 　　</p> 　　
+<p>(11) 干扰或混乱网络服务，不遵守所有使用网络服务的网络协议、规定、程序和惯例的。 　　</p> 　　
+<p>(12) 含有法律、行政法规禁止的其他内容的。</p> 　　
+　　
+<p>二、 禁止的行为 　　</p> 　　
+<p>您在访问金衡财富时，严禁进行以下活动，否则金衡财富有权无条件立即中止您的服务： 　　</p> 　　
+<p>(1) 直接或间接在金衡财富宣传其它竞争网站或为其它类似竞争网站做广告。 　　</p> 　　
+<p>(2) 扰乱金衡财富社区的秩序，在社区中发布与主题无关的广告或无意义的信息。 　　</p> 　　
+<p>(3) 大量发布相同的问题或回答。 　　</p> 　　
+<p>(4) 其它可能对金衡财富不利的行为或违反任何中华人民共和国法律、法规的行为。</p> 　　
+　　
+<p>三、用户帐号 　　</p> 　　
+<p>您一旦注册成功，成为金衡财富的合法用户，将得到一个密码和用户名，您将对用户名和密码安全负全部责任，而且对以您用户名进行的所有活动和事件负全部责任，您可以随时改变您的密码。若您发现任何非法使用用户帐号或存在安全漏洞的情况，请立即通知金衡财富管理员；您必须提供真实的个人资料，并且在发生变动时及时地更新您在金衡财富中的个人资料；您成为金衡财富合法用户时，即表示接受金衡财富通过电子邮件不定期向您发送网站更新信息、赞助商广告或其他相关的服务信息。</p> 　　
+　　
+<p>四、结束服务 　　</p> 　　
+<p>您或金衡财富均可随时根据实际情况中断一项或多项网络服务。金衡财富不需要对您或第三方负责而可以随时中断服务。您对后来的条款修改有异议，或对金衡财富的服务不满，可以行使如下权利： 　　</p> 　　
+<p>(1) 停止使用金衡财富的服务。 　</p> 　　　
+<p>(2) 提前结束金衡财富的服务。 　</p> 　　　
+<p>结束服务后，您使用金衡财富网络服务的权利马上中止。从那时起，您没有权利，金衡财富也没有义务传送任何未处理的信息或未完成的服务给您或第三方。</p> 　　
+　　
+<p>五、有限责任 　　</p> 　　
+<p>您个人对网络服务的使用承担风险，金衡财富对此不作任何类型的担保，不论是明确的或隐含的，也不对商业性的隐含担保、特定目的和不违反规定的适当性担保。金衡财富不担保服务一定能满足您的要求，也不担保服务不会受中断，对服务的及时性、安全性、出错发生都不作担保。金衡财富对在金衡财富上得到的任何商品购物服务或交易进程，不作担保。 
+金衡财富对任何直接、间接、偶然、特殊及继起的损害不负责任，这些损害包括但不限于：不正当使用网络服务；在网上购买商品或进行同类型服务；在网上进行交易；非法使用网络服务或用户传送的信息有所变动。这些行为都有可能会导致金衡财富的形象受损，所以金衡财富事先提出这种损害的可能性。 　
+金衡财富不对您所发布信息的删除或储存失败负责。金衡财富有判定您的行为是否符合金衡财富服务条款的要求和精神的保留权利，如果您违背了服务条款的规定，金衡财富有中断对您提供服务的权利。 　　</p> 　　
+<p>您同意保障和维护金衡财富全体成员的利益，负责支付由您使用超出服务范围引起的律师费用，违反服务条款的损害补偿费用等。</p> 　　　
+<p>六、关于本服务条款 　</p> 　　　
+<p>金衡财富有权在必要时修改本服务条款。服务条款一旦发生变动，将会在重要页面上提示。如果您不同意所改动的内容，您可以主动注销您的用户帐号或者提请金衡财富工作人员为您注销。如果您继续使用金衡财富的服务，则视为接受服务条款的变动。金衡财富保留随时修改或中断服务而不需知照您的权利。金衡财富行使修改或中断服务的权利，不需对您或第三方负责。</p> 　　
+　　
+<p>七、法律 </p> 　　　　
+<p>金衡财富服务条款要与中华人民共和国的法律解释相一致，您和金衡财富一致同意服从法律规定的管辖。如发生金衡财富服务条款与中华人民共和国法律、法规相抵触时，则这些条款将完全按法律规定重新解释，而其它条款则依旧保持对用户产生法律效力和影响。</p> 　　
+</div>	
+</div>
+		<!--注册协议-->
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="js/iscroll-zoom.js"></script>
+		<script src="http://cdn.bootcss.com/hammer.js/2.0.4/hammer.min.js"></script>
+		<script type="text/javascript" src="js/lrz.all.bundle.js"></script>
+		<script type="text/javascript" src="js/jquery.photoClip.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/header.js"></script>
+		<script type="text/javascript" src="js/footer.js"></script>
+		<script type="text/javascript" src="js/register.js"></script>
+	</body>
+
+</html>

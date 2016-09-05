@@ -1,0 +1,592 @@
+//财务数据
+var fieldRankList = [];
+$(function() {
+	findAssetDebt();
+	fieldRank();
+	$("select[name='fieldRankSl']").on("change", function() {
+		fieldRank();
+	});
+	
+	$(".center_title a").on("click",function(){
+		$(".center_title").find("a").removeClass("hover");
+		$(this).addClass("hover");
+		var index=$(this).attr("data-index");
+		if(index==0){
+			findAssetDebt();
+		}else if(index==1){
+			findBenefit();
+		}else if(index==2){
+			findCashFlow();
+		}
+	});
+});
+
+/**
+ * 获取资产负债信息
+ */
+function findAssetDebt(){
+	$.ajax({
+		type:"post",
+		url:url+"/finance/findAssetDebt.do",
+		async:true,
+		data:{
+			stockCode:getUrlParam("stockCode")
+		},
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("uu");
+		},
+		success:function(data){
+			if (data.retCode==0000) {
+				var result=data.retData;
+				if(result!=null){
+					var html=findAssetDebtTitle();
+					for(var i=0;i<result.length;i++){
+						if(i>=4){
+							break;
+						}
+						var assetDebt=result[i];
+						html+=findAssetDebtData(assetDebt);
+					}
+					$("#dataTable").html(html);
+				}
+			} else{
+				alert(data.retMsg);
+			}
+		}
+	});
+}
+
+/**
+ * 获取利润信息
+ */
+function findBenefit(){
+	$.ajax({
+		type:"post",
+		url:url+"/finance/findBenefit.do",
+		async:true,
+		data:{
+			stockCode:getUrlParam("stockCode")
+		},
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("uu");
+		},
+		success:function(data){
+			if (data.retCode==0000) {
+				var result=data.retData;
+				if(result!=null){
+					var html=findBenefitTitle();
+					for(var i=0;i<result.length;i++){
+						if(i>=4){
+							break;
+						}
+						var benefit=result[i];
+						html+=findBenefitData(benefit);
+					}
+					$("#dataTable").html(html);
+				}
+			} else{
+				alert(data.retMsg);
+			}
+		}
+	});
+}
+/**
+ * 获取现金流量信息
+ */
+function findCashFlow(){
+	$.ajax({
+		type:"post",
+		url:url+"/finance/findCashFlow.do",
+		async:true,
+		data:{
+			stockCode:getUrlParam("stockCode")
+		},
+		beforeSend:function(xhr){
+			xhr.setRequestHeader("uu");
+		},
+		success:function(data){
+			if (data.retCode==0000) {
+				var result=data.retData;
+				if(result!=null){
+					var html=findCashFlowTitle();
+					for(var i=0;i<result.length;i++){
+						if(i>=4){
+							break;
+						}
+						var cashFlow=result[i];
+						html+=findCashFlowData(cashFlow);
+					}
+					$("#dataTable").html(html);
+				}
+			} else{
+				alert(data.retMsg);
+			}
+		}
+	});
+}
+
+//行业地位分析
+function fieldRank() {
+	$.ajax({
+		type: "post",
+		url: url + "/trade/findTradeContrast.do",
+		async: true,
+		data: {
+			stockCode: getUrlParam("stockCode"),
+			date: $("select[name='fieldRankSl']").val()
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				if (data.retData.length != 0) {
+					var result = data.retData;
+					$("#fieldRankTable tbody").empty();
+					$("#industry").html(result[0].industry); //行业分类
+					$("#pageCount").html(result[0].pageCount); //此行业下企业数量
+					$.each(result[0].list, function(index, item) {
+						item.earningsPerShare == null ? item.earningsPerShare = '无' : null;
+						item.netAssetValuePerShare == null ? item.netAssetValuePerShare = '无' : null;
+						item.cashFlowPerShare == null ? item.cashFlowPerShare = '无' : null;
+						item.netProfit == null ? item.netProfit = '无' : null;
+						item.businessIncome == null ? item.businessIncome = '无' : null;
+						item.totalAssets == null ? item.totalAssets = '无' : null;
+						item.returnNetAssets == null ? item.returnNetAssets = '无' : null;
+						item.shareholderEquityRatio == null ? item.shareholderEquityRatio = '无' : null;
+						item.salesGrossMargin == null ? item.salesGrossMargin = '无' : null;
+						item.totalShareCapital == null ? item.totalShareCapital = '无' : null;
+						var tr = '<tr>';
+						tr += '<td>' + (index + 1) + '</td>'; //序号
+						tr += '<td>' + item.stockCode + '</td>'; //股票代码
+						tr += '<td>' + item.name + '</td>'; //企业简称
+						tr += '<td>' + item.earningsPerShare + '</td>'; //每股收益
+						tr += '<td>' + item.netAssetValuePerShare + '</td>'; //每股净资产
+						tr += '<td>' + item.cashFlowPerShare + '</td>'; //每股现金流
+						tr += '<td>' + item.netProfit + '</td>'; //净利润
+						tr += '<td>' + item.businessIncome + '</td>'; //营业收入
+						tr += '<td>' + item.totalAssets + '</td>'; //总资产
+						tr += '<td>' + item.returnNetAssets + '</td>'; //净资产收益率
+						tr += '<td>' + item.shareholderEquityRatio + '</td>'; //股东权益比率
+						tr += '<td>' + item.salesGrossMargin + '</td>'; //销售毛利率
+						tr += '<td>' + item.totalShareCapital + '</td>'; //总股本
+						tr += '</tr>';
+						$("#fieldRankTable tbody").append(tr);
+					});
+					$("#fieldRankBtns li").first().addClass("on").siblings().removeClass("on");
+					fieldRankList = result[0].list;
+					fieldRankData("每股收益");
+					$("#fieldRankBtns li").off("click");
+					$("#fieldRankBtns li").on("click", function() {
+						if (!$(this).hasClass("on")) {
+							fieldRankData($(this).text());
+							$(this).addClass("on").siblings().removeClass("on");
+						}
+
+					});
+
+				} else {
+					$("#fieldRankChart").html("");
+					$("#fieldRankTable tbody").html("<tr><td colspan='13'>暂无数据</td></tr>");
+				}
+
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+
+function fieldRankData(name) {
+	var xAxis = [];
+	var data = [];
+	var startValue = 0;
+
+	switch (name) {
+		case "每股收益":
+			fieldRankList.sort(function(a, b) {
+				return b.earningsPerShare - a.earningsPerShare;
+			});
+			break;
+		case "每股净资产":
+			fieldRankList.sort(function(a, b) {
+				return b.netAssetValuePerShare - a.netAssetValuePerShare;
+			});
+			break;
+		case "每股现金流":
+			fieldRankList.sort(function(a, b) {
+				return b.cashFlowPerShare - a.cashFlowPerShare;
+			});
+			break;
+		case "净利润":
+			fieldRankList.sort(function(a, b) {
+				return b.netProfit - a.netProfit;
+			});
+			break;
+		case "营业收入":
+			fieldRankList.sort(function(a, b) {
+				return b.businessIncome - a.businessIncome;
+			});
+			break;
+		case "总资产":
+			fieldRankList.sort(function(a, b) {
+				return b.totalAssets - a.totalAssets;
+			});
+			break;
+		case "净资产收益率":
+			fieldRankList.sort(function(a, b) {
+				return b.returnNetAssets - a.returnNetAssets;
+			});
+			break;
+		case "股东权益比率":
+			fieldRankList.sort(function(a, b) {
+				return b.shareholderEquityRatio - a.shareholderEquityRatio;
+			});
+			break;
+		case "销售毛利率":
+			fieldRankList.sort(function(a, b) {
+				return b.salesGrossMargin - a.salesGrossMargin;
+			});
+			break;
+		case "总股本":
+			fieldRankList.sort(function(a, b) {
+				return b.totalShareCapital - a.totalShareCapital;
+			});
+			break;
+		default:
+			break;
+	}
+	$.each(fieldRankList, function(index, item) {
+		xAxis.push(item.name);
+		if (item.stockCode == getUrlParam("stockCode")) {
+			startValue = index;
+		}
+
+		switch (name) {
+			case "每股收益":
+				data.push(item.earningsPerShare);
+
+				break;
+			case "每股净资产":
+				data.push(item.netAssetValuePerShare);
+				break;
+			case "每股现金流":
+				data.push(item.cashFlowPerShare);
+				break;
+			case "净利润":
+				data.push(item.netProfit);
+				break;
+			case "营业收入":
+				data.push(item.businessIncome);
+				break;
+			case "总资产":
+				data.push(item.totalAssets);
+				break;
+			case "净资产收益率":
+				data.push(item.returnNetAssets);
+				break;
+			case "股东权益比率":
+				data.push(item.shareholderEquityRatio);
+				break;
+			case "销售毛利率":
+				data.push(item.salesGrossMargin);
+				break;
+			case "总股本":
+				data.push(item.totalShareCapital);
+				break;
+			default:
+				break;
+		}
+	});
+	fieldRankChart(xAxis, name, data, startValue);
+}
+//行业地位分析数据图表
+function fieldRankChart(xAxis, name, data, startValue) {
+	var end = 7;
+	if (data.length > 170) {
+		end = 30;
+	} else if (100 < data.length && data.length <= 170) {
+		end = 13;
+	} else if (40 < data.length && data.length <= 100) {
+		end = 7;
+	} else if (data.length <= 40) {
+		end = 5;
+	}
+	var itemIndex=0;
+	$.each(xAxis, function(i, item) {
+		if (item==unescape(getUrlParam("stockName"))) {
+			itemIndex=i;
+		}
+	});
+	// 基于准备好的dom，初始化echarts实例
+	var myChart = echarts.init(document.getElementById('fieldRankChart'));
+	var option = {
+		title: {
+			text: "行业地位分析"
+		},
+		dataZoom: [{
+			type: "slider",
+			show: true,
+			xAxisIndex: 0,
+			startValue: startValue - 2,
+			endValue: startValue + 2 + (Math.ceil(data.length / end))
+				//			backgroundColor: "#CFEBF2",
+				//			dataBackground:{
+				//				areaStyle:{
+				//					 color:"#406ac1"
+				//				}
+				//			}
+		}],
+		yAxis: [{
+			type: "value",
+			data: []
+		}],
+		xAxis: [{
+			type: 'category',
+			data: xAxis
+		}],
+		series: [{
+			name: name,
+			type: 'bar',
+			data: data,
+			label: {
+				normal: {
+					show: true,
+					position: "top",
+					formatter: function(params) {
+						return "第"+(params.dataIndex+1)+"名";
+					}
+				}
+			},
+			itemStyle:{
+				normal:{
+					color:function(params){
+						if (params.dataIndex==itemIndex) {
+							return "#5FBDD3";
+						}else{
+							return "#D53A35"; 
+						}
+					}
+				}
+			}
+		}]
+	};
+	// 使用刚指定的配置项和数据显示图表。
+	myChart.setOption(option);
+}
+
+/**
+ * 资产负载字段
+ */
+function findAssetDebtTitle(){
+	var assetDebtTitle='<li>';
+		assetDebtTitle+='<span>科目/年度</span>';
+		assetDebtTitle+='<span>货币资金(万元)</span>';
+		assetDebtTitle+='<span>应收票据(万元)</span>';
+		assetDebtTitle+='<span>应收账款(万元)</span>';
+		assetDebtTitle+='<span>预付账款(万元)</span>';
+		assetDebtTitle+='<span>其他应收款(万元)</span>';
+		assetDebtTitle+='<span>存货(万元)</span>';
+		assetDebtTitle+='<span>其他流动资产(万元)</span>';
+		assetDebtTitle+='<span>流动资产合计(万元)</span>';
+		assetDebtTitle+='<span>可供出售金融资产(万元)</span>';
+		assetDebtTitle+='<span>长期股权投资(万元)</span>';
+		assetDebtTitle+='<span>固定资产(万元)</span>';
+		assetDebtTitle+='<span>在建工程(万元)</span>';
+		assetDebtTitle+='<span>无形资产(万元)</span>';
+		assetDebtTitle+='<span>商誉(万元)</span>';
+		assetDebtTitle+='<span>长期待摊费用(万元)</span>';
+		assetDebtTitle+='<span>递延所得税资产(万元)</span>';
+		assetDebtTitle+='<span>非流动资产合计(万元)</span>';
+		assetDebtTitle+='<span>资产总计(万元)</span>';
+		assetDebtTitle+='<span>应付账款(万元)</span>';
+		assetDebtTitle+='<span>预收账款(万元)</span>';
+		assetDebtTitle+='<span>应交税费(万元)</span>';
+		assetDebtTitle+='<span>其他应付款(万元)</span>';
+		assetDebtTitle+='<span>其他流动负债(万元)</span>';
+		assetDebtTitle+='<span>流动负债合计(万元)</span>';
+		assetDebtTitle+='<span>负债合计(万元)</span>';
+		assetDebtTitle+='<span>股本(万股)</span>';
+		assetDebtTitle+='<span>资本公积金(万元)</span>';
+		assetDebtTitle+='<span>盈余公积金(万元)</span>';
+		assetDebtTitle+='<span>未分配利润(万元)</span>';
+		assetDebtTitle+='<span>归属于母公司股东权益合计(万元)</span>';
+		assetDebtTitle+='<span>少数股东权益(万元)</span>';
+		assetDebtTitle+='<span>股东权益合计(万元)</span>';
+		assetDebtTitle+='<span>负债和股东权益总计(万元)</span>';
+		assetDebtTitle+='</li>';
+	return assetDebtTitle;
+}
+/**
+ * 资产负载数据
+ */
+function findAssetDebtData(assetDebt){
+	var assetDebtData='<li>';
+		assetDebtData+='<span>'+assetDebt.keyInfo.split("_")[0]+'</span>';
+		assetDebtData+='<span>'+assetDebt.monetaryCapital+'</span>';
+		assetDebtData+='<span>'+assetDebt.notesReceivable+'</span>';
+		assetDebtData+='<span>'+assetDebt.receivables+'</span>';
+		assetDebtData+='<span>'+assetDebt.advanceMoney+'</span>';
+		assetDebtData+='<span>'+assetDebt.otherReceivables+'</span>';
+		assetDebtData+='<span>'+assetDebt.inventory+'</span>';
+		assetDebtData+='<span>'+assetDebt.otherCurrentAssets+'</span>';
+		assetDebtData+='<span>'+assetDebt.totalCurrentAssets+'</span>';
+		assetDebtData+='<span>'+assetDebt.availableForAaleFinancialAssets+'</span>';
+		assetDebtData+='<span>'+assetDebt.longTermEquityInvestment+'</span>';
+		assetDebtData+='<span>'+assetDebt.fixedAssets+'</span>';
+		assetDebtData+='<span>'+assetDebt.processConstruction+'</span>';
+		assetDebtData+='<span>'+assetDebt.intangibleAssets+'</span>';
+		assetDebtData+='<span>'+assetDebt.goodWill+'</span>';
+		assetDebtData+='<span>'+assetDebt.longTermUnamortizedExpenses+'</span>';
+		assetDebtData+='<span>'+assetDebt.deferredTaxAssets+'</span>';
+		assetDebtData+='<span>'+assetDebt.totalNonCurrentAssets+'</span>';
+		assetDebtData+='<span>'+assetDebt.totalAssets+'</span>';
+		assetDebtData+='<span>'+assetDebt.accountsPayable+'</span>';
+		assetDebtData+='<span>'+assetDebt.depositReceived+'</span>';
+		assetDebtData+='<span>'+assetDebt.taxPayable+'</span>';
+		assetDebtData+='<span>'+assetDebt.otherPayables+'</span>';
+		assetDebtData+='<span>'+assetDebt.otherCurrentLiability+'</span>';
+		assetDebtData+='<span>'+assetDebt.totalCurrentLiability+'</span>';
+		assetDebtData+='<span>'+assetDebt.totalLiability+'</span>';
+		assetDebtData+='<span>'+assetDebt.capitalStock+'</span>';
+		assetDebtData+='<span>'+assetDebt.capitalReserve+'</span>';
+		assetDebtData+='<span>'+assetDebt.surplusAccumulationFund+'</span>';
+		assetDebtData+='<span>'+assetDebt.undistributedProfit+'</span>';
+		assetDebtData+='<span>'+assetDebt.totalParentAhareholdersAttributable+'</span>';
+		assetDebtData+='<span>'+assetDebt.minorityEquity+'</span>';
+		assetDebtData+='<span>'+assetDebt.totalShareholderEquity+'</span>';
+		assetDebtData+='<span>'+assetDebt.totalLiabilitiesAndStockholders+'</span>';
+		assetDebtData+='</li>';
+	return assetDebtData;
+}
+
+/**
+ * 利润-字段
+ */
+function findBenefitTitle(){
+	var benefitTitle='<li>';
+		benefitTitle+='<span>科目/年度</span>';
+		benefitTitle+='<span>净利润(万元)</span>';
+		benefitTitle+='<span>扣非净利润(万元)</span>';
+		benefitTitle+='<span>营业总收入(万元)</span>';
+		benefitTitle+='<span>营业收入(万元)</span>';
+		benefitTitle+='<span>营业总成本(万元)</span>';
+		benefitTitle+='<span>营业成本(万元)</span>';
+		benefitTitle+='<span>营业利润(万元)</span>';
+		benefitTitle+='<span>投资收益(万元)</span>';
+		benefitTitle+='<span>资产减值损失(万元)</span>';
+		benefitTitle+='<span>管理费用(万元)</span>';
+		benefitTitle+='<span>销售费用(万元)</span>';
+		benefitTitle+='<span>财务费用(万元)</span>';
+		benefitTitle+='<span>营业外收入(万元)</span>';
+		benefitTitle+='<span>营业外支出(万元)</span>';
+		benefitTitle+='<span>营业税金及附加(万元)</span>';
+		benefitTitle+='<span>利润总额(万元)</span>';
+		benefitTitle+='<span>所得税(万元)</span>';
+		benefitTitle+='<span>综合收益总额(万元)</span>';
+		benefitTitle+='<span>归属于母公司股东的综合收益总额(万元)</span>';
+		benefitTitle+='<span>归属于少数股东的综合收益总额(万元)</span>';
+		benefitTitle+='</li>';
+	return benefitTitle
+}
+
+/**
+ * 利润数据
+ */
+function findBenefitData(benefit){
+	var benefitData='<li>';
+		benefitData+='<span>'+benefit.keyInfo.split("_")[0]+'</span>';
+		benefitData+='<span>'+benefit.netProfit+'</span>';
+		benefitData+='<span>'+benefit.nonNetProfit+'</span>';
+		benefitData+='<span>'+benefit.totalOperatingIncome+'</span>';
+		benefitData+='<span>'+benefit.operatingIncome+'</span>';
+		benefitData+='<span>'+benefit.totalOperatingCost+'</span>';
+		benefitData+='<span>'+benefit.operatingCost+'</span>';
+		benefitData+='<span>'+benefit.operatingProfit+'</span>';
+		benefitData+='<span>'+benefit.investmentIncome+'</span>';
+		benefitData+='<span>'+benefit.assetsImpairmentLoss+'</span>';
+		benefitData+='<span>'+benefit.administrativeCost+'</span>';
+		benefitData+='<span>'+benefit.salesExpense+'</span>';
+		benefitData+='<span>'+benefit.financialCost+'</span>';
+		benefitData+='<span>'+benefit.nonBusinessIncome+'</span>';
+		benefitData+='<span>'+benefit.nonBusinessExpenditure+'</span>';
+		benefitData+='<span>'+benefit.businessTariffAndAnnex+'</span>';
+		benefitData+='<span>'+benefit.totalProfit+'</span>';
+		benefitData+='<span>'+benefit.incomeTax+'</span>';
+		benefitData+='<span>'+benefit.totalComprehensiveIncome+'</span>';
+		benefitData+='<span>'+benefit.parentShareholdersTotalAmount+'</span>';
+		benefitData+='<span>'+benefit.minorityShareholdersTotalAmount+'</span>';
+		benefitData+='</li>';
+	return benefitData
+}
+
+/**
+ * 现金流量-字段
+ */
+function findCashFlowTitle(){
+	var cashFlowTitle='<li>';
+		cashFlowTitle+='<span>科目/年度</span>';
+		cashFlowTitle+='<span>销售商品、提供劳务收到的现金(万元)</span>';
+		cashFlowTitle+='<span>收到的税费与返还(万元)</span>';
+		cashFlowTitle+='<span>支付的各项税费(万元)</span>';
+		cashFlowTitle+='<span>支付给职工以及为职工支付的现金(万元)</span>';
+		cashFlowTitle+='<span>经营现金流入(万元)</span>';
+		cashFlowTitle+='<span>经营现金流出(万元)</span>';
+		cashFlowTitle+='<span>经营现金流量净额(万元)</span>';
+		cashFlowTitle+='<span>购建固定资产和其他支付的现金(万元)</span>';
+		cashFlowTitle+='<span>投资支付的现金(万元)</span>';
+		cashFlowTitle+='<span>支付其他与投资的现金(万元)</span>';
+		cashFlowTitle+='<span>投资现金流入(万元)</span>';
+		cashFlowTitle+='<span>投资现金流出(万元)</span>';
+		cashFlowTitle+='<span>投资现金流量净额(万元)</span>';
+		cashFlowTitle+='<span>吸收投资收到现金(万元)</span>';
+		cashFlowTitle+='<span>其中子公司吸收现金(万元)</span>';
+		cashFlowTitle+='<span>取得借款的现金(万元)</span>';
+		cashFlowTitle+='<span>收到其他与筹资的现金(万元)</span>';
+		cashFlowTitle+='<span>偿还债务支付现金(万元)</span>';
+		cashFlowTitle+='<span>分配股利、利润或偿付利息支付的现金(万元)</span>';
+		cashFlowTitle+='<span>支付其他与筹资的现金(万元)</span>';
+		cashFlowTitle+='<span>筹资现金流入(万元)</span>';
+		cashFlowTitle+='<span>筹资现金流出(万元)</span>';
+		cashFlowTitle+='<span>筹资现金流量净额(万元)</span>';
+		cashFlowTitle+='<span>汇率变动对现金的影响(万元)</span>';
+		cashFlowTitle+='<span>现金及现金等价物净增加额(万元)</span>';
+		cashFlowTitle+='</li>';
+	return cashFlowTitle
+}
+
+/**
+ * 现金流量数据
+ */
+function findCashFlowData(cashFlow){
+	var cashFlowData='<li>';
+		cashFlowData+='<span>'+cashFlow.keyInfo.split("_")[0]+'</span>';
+		cashFlowData+='<span>'+cashFlow.sellingAndlaborCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.receiptAndReturnTax+'</span>';
+		cashFlowData+='<span>'+cashFlow.paymentsTax+'</span>';
+		cashFlowData+='<span>'+cashFlow.workerPayAndworkerCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.operatingCashInFlows+'</span>';
+		cashFlowData+='<span>'+cashFlow.operatingCashFlow+'</span>';
+		cashFlowData+='<span>'+cashFlow.netOperatingCashFlow+'</span>';
+		cashFlowData+='<span>'+cashFlow.fixedAssetsAndOtherPaymentCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.investmentPayment+'</span>';
+		cashFlowData+='<span>'+cashFlow.otherInvestmentCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.investmentCashInFlows+'</span>';
+		cashFlowData+='<span>'+cashFlow.investmentCashFlow+'</span>';
+		cashFlowData+='<span>'+cashFlow.investmentNetCashFlow+'</span>';
+		cashFlowData+='<span>'+cashFlow.absorbInvestmentCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.subsidiaryAbsorbCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.borrowCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.financingCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.repayDebtCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.allocationPayCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.payFinancingCash+'</span>';
+		cashFlowData+='<span>'+cashFlow.raiseCashInflows+'</span>';
+		cashFlowData+='<span>'+cashFlow.raiseCashFlows+'</span>';
+		cashFlowData+='<span>'+cashFlow.financingNetCashFlow+'</span>';
+		cashFlowData+='<span>'+cashFlow.exchangeRateChanges+'</span>';
+		cashFlowData+='<span>'+cashFlow.netIncreaseAndEquivalentsCash+'</span>';
+		cashFlowData+='</li>';
+	return cashFlowData
+}

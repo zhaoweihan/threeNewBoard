@@ -1,0 +1,45 @@
+html,body{
+	height: auto;
+}
+/**新闻列表**/
+
+.newsList {
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 10px;
+	height: auto;
+}
+
+.newsList ul li {
+	width: 96%;
+	margin: 0 auto;
+	background: url(../images/lsj.png) left center no-repeat;
+	height: 35px;
+	line-height: 35px;
+	overflow: hidden;
+	border-bottom: 1px dashed #ccc;
+	padding: 15px 0;
+}
+
+.newsList ul li em {
+	display: inline-block;
+	float: left;
+	margin-left: 15px;
+	width: 63%;
+	color: #272727;
+	height: 35px;
+	line-height: 35px;
+	overflow: hidden;
+	font-size: 100%;
+}
+
+.newsList ul li span {
+	display: inline-block;
+	float: right;
+	width: 27%;
+	height: 35px;
+	line-height: 35px;
+	overflow: hidden;
+	color: #666;
+	font-size: 100%;
+}

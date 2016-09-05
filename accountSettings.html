@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>账号设置</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+		<link rel="stylesheet" type="text/css" href="css/businessDetails.css">
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="main">
+			<div class="main_center">
+				<div class="main_left main_left2">
+					<ul>
+						<li class="grxx"><a href="userInformation.html" >个人信息</a></li>
+						<li class="gzqy"><a href="followentErprise.html">关注企业</a></li>
+						<li class="fxjl"><a href="analysisRecord.html" >分析记录</a></li>
+						<li class="zhsz"><a href="accountSettings.html" class="hover">账号设置</a></li>
+				    </ul>
+				</div>
+				<div class="main_right">
+					<div class="right_dbox">
+						
+						
+						<div class="main_r_center">
+							<div class="r_center_title"> <span>账号设置</span> </div>
+							
+							
+							<div class="user_set">
+								<div class="user_set_title">
+									<a href="javascript:;" class="hover">修改密码</a>
+									<a href="javascript:;">修改手机号</a>
+								</div>
+								<div class="user_box">
+									<div class="user_set_list">
+										<form id="pwdEdit" onsubmit="return false">
+											<ul>
+												<li class="clearfix"><input type="password" name="password" id="password" placeholder="请输入原密码" maxlength="16" /></li>
+												<li class="clearfix"><input type="password" name="newPwd" id="newPwd" placeholder="请输入6-16位新密码"  maxlength="16" /></li>
+												<li class="clearfix"><input type="password" name="verifyPwd" id="verifyPwd" placeholder="请再次输入6-16位新密码" maxlength="16"  /></li>
+											</ul>
+											<div class="user_btn"><button type="submit" id="pwdEditBtn">确认修改</button></div>
+										</form>
+									</div>
+								
+								<div class="user_set_list" style="display: none;">
+									<form id="phoneEdit" onsubmit="return false">
+									<ul>
+										<li class="clearfix fsyzm">
+											<input type="text" name="phoneNumber" id="phoneNumber" placeholder="请输入绑定的手机号" maxlength="11" />
+											<button type="button" class="senbVcode" id="sendVcode">获取验证码</button>
+										</li>
+										<li class="clearfix">
+											<input type="text" name="verificationCode" id="verificationCode" placeholder="请输入验证码" maxlength="6" />
+										</li>
+									</ul>
+									<div class="user_btn"><button type="submit" id="phoneEditBtn">提交</button></div>
+									</form>
+								</div>
+								</div>
+							</div>
+						</div>
+						<div class="clr"></div>
+						
+
+					</div>
+
+				</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+
+		</div>
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/head2.js" ></script>
+		<script src="js/footer.js"></script>
+		<script src="js/user.js"></script>
+		<script type="text/javascript" src="js/accountSettings.js"></script>
+	</body>
+
+</html>

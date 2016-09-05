@@ -1,0 +1,425 @@
+var pdfLIst=[];
+var pdfIndex=0;
+$(function() {
+	//关闭pdf预览
+	$("#closePdf").on("click",function(){
+		$("#pdfMasker").animate({
+			"bottom":-100+"%"
+		},300,function(){
+			$("#pdf").attr("src","");
+			$("html,body").css("overflow","auto");	
+		});
+	});
+	//导出表格选中信息
+	$("#exportTable").click(function() {
+			var stockCodes = "";
+			$("[type='checkbox']").each(function() {
+				if($(this).attr("checked") == "checked") {
+					stockCodes += $(this).parent().next().text() + ",";
+				}
+			})
+			location.href = url + "/export/exportCompanyMsg.do?stockCodes=" + stockCodes.substring(0, stockCodes.length - 1);
+		})
+		// 查询行业信息
+	commonFindTrade(1, "hangye1", "hangye2", "", "condition", "hangye2", "area", "tc", "financialType", "findEarnings");
+	// 查询城市信息
+	findArea("area", "condition", "hangye2", "area", "tc", "financialType", "findEarnings");
+	// 查询全部列表
+	getEarningsList(1, 20, "");
+
+	//进行我的检索条件回显
+	if(decodeURI(getUrlParam("primaryIndustries")) != "null" || getUrlParam("secondaryIndustries") != "null" ||
+		getUrlParam("territory") != "null" || getUrlParam("starTime") != "null" ||
+		getUrlParam("endTime") != "null" || getUrlParam("dealType") != "null" || getUrlParam("financialType") != "null") {
+		if(decodeURI(getUrlParam("primaryIndustries")) != "null") {
+			$("#hangye1 a").each(function() {
+				if(this.dataset.value == decodeURI(getUrlParam("primaryIndustries"))) {
+					$(this).addClass("hover");
+					findTrade2("hangye2", this.dataset.value, "condition", "hangye2", "area", "tc", "financialType", "findEarnings");
+				}
+			})
+		}
+		if(decodeURI(getUrlParam("secondaryIndustries")) != "null") {
+			$("#hangye2 a").each(function() {
+				if(this.dataset.value == decodeURI(getUrlParam("secondaryIndustries"))) {
+					$(this).addClass("hover");
+				}
+			});
+		}
+		if(decodeURI(getUrlParam("territory")) != "null") {
+			$("#area a").each(function() {
+				if(this.dataset.value == decodeURI(getUrlParam("territory"))) {
+					$(this).addClass("hover");
+				}
+			})
+		}
+		if(decodeURI(getUrlParam("starTime")) != "null") {
+			$("#toneStartTime").val(decodeURI(getUrlParam("starTime")));
+		}
+		if(decodeURI(getUrlParam("endTime")) != "null") {
+			$("#toneEndTime").val(decodeURI(getUrlParam("endTime")));
+		}
+		if(decodeURI(getUrlParam("dealType")) != "null") {
+			$("[name='tc']").each(function() {
+				if($(this).val() == decodeURI(getUrlParam("dealType"))) {
+					$(this).attr("checked", "checked");
+					$(this).next().addClass("on");
+					$(this).next().next().css("color", "rgb(95, 189, 211)");
+				}
+			})
+		}
+		if(decodeURI(getUrlParam("financialType")) != "null") {
+			$("[name='financialType']").each(function() {
+				if($(this).val() == decodeURI(getUrlParam("financialType"))) {
+					$(this).attr("checked", "checked");
+					$(this).next().addClass("on");
+					$(this).next().next().css("color", "rgb(95, 189, 211)");
+				}
+			})
+		}
+		retrieveCondition("condition", "hangye2", "area", "tc", "financialType", "findEarnings");
+	}
+
+	// 清空查询条件
+	$("#emptyCondition").click(function() {
+		$("#condition").empty();
+		$("#hangye1 a").each(function() {
+			$(this).removeClass("hover");
+		})
+		$("#hangye2 a").each(function() {
+			$(this).removeClass("hover");
+		})
+		$("#area a").each(function() {
+			$(this).removeClass("hover");
+		})
+		$("[name='fs']").each(function() {
+			$(this).removeClass("on");
+			$(this).css("color", "");
+		})
+		$("[name='ff']").each(function() {
+			$(this).removeClass("on");
+			$(this).css("color", "");
+		})
+		getEarningsList(1, 20, "");
+	})
+
+	//点击保存弹出弹框
+	$("#showConditionWindow").click(function() {
+		//拼出显示检索条件
+		var searchConditionStr = "";
+		var searchName = "找财报：";
+		if($("#toneStartTime").val() != "") {
+			searchConditionStr += "开始时间：" + $("#toneStartTime").val() + '\n';
+		}
+		if($("#toneEndTime").val() != "") {
+			searchConditionStr += "结束时间：" + $("#toneEndTime").val() + '\n';
+		}
+		$($("#condition").children()).each(function() {
+			if(this.dataset.type == "city") {
+				searchConditionStr += "地区：" + this.dataset.value + '\n';
+				searchName += this.dataset.value + "+";
+			}
+			if(this.dataset.type == "trade2") {
+				searchConditionStr += "行业：" + this.dataset.value + '\n';
+				searchName += this.dataset.value + "+";
+			}
+			if(this.dataset.type == "deal") {
+				if(this.dataset.value == 1) {
+					searchConditionStr += "交易方式：协议" + '\n';
+					searchName += "协议+";
+				}
+				if(this.dataset.value == 2) {
+					searchConditionStr += "交易方式：做市" + '\n';
+					searchName += "做市+";
+				}
+			}
+			if(this.dataset.type == "type") {
+				if(this.dataset.value == 1) {
+					searchConditionStr += "报告类型：季报" + '\n';
+					searchName += "季报+";
+				}
+				if(this.dataset.value == 2) {
+					searchConditionStr += "报告类型：中报" + '\n';
+					searchName += "中报+";
+				}
+				if(this.dataset.value == 3) {
+					searchConditionStr += "报告类型：年报" + '\n';
+					searchName += "年报+";
+				}
+			}
+		})
+		if(searchConditionStr != "") {
+			$("#conditionContent").text(searchConditionStr);
+			$("#conditionName").val(searchName.substring(0, searchName.length - 1));
+			$("#defindName").hide();
+			$(".tcbackground").show();
+			$(".qrdele").show();
+		} else {
+			$("#choiceCondition").show();
+		}
+	})
+
+	//点击取消弹框
+	$("[name='cancel']").click(function() {
+		$(".tcbackground").hide();
+		$(".qrdele").hide();
+	})
+
+	//保存筛选条件
+	$("#saveCondition").click(function() {
+		var searchUrl = "/findEarnings.html?";
+		//拼出检索条件
+		var searchConditionStr = '{';
+		if($("#toneStartTime").val() != "") {
+			searchConditionStr += '"starTime":' + $("#toneStartTime").val() + ',';
+			searchUrl += "starTime=" + encodeURI($("#toneStartTime").val()) + '&';
+		}
+		if($("#toneEndTime").val() != "") {
+			searchConditionStr += '"endTime":' + $("#toneEndTime").val() + ',';
+			searchUrl += "endTime=" + encodeURI($("#toneEndTime").val()) + '&';
+		}
+		$($("#condition").children()).each(function() {
+			if(this.dataset.type == "city") {
+				searchConditionStr += '"territory":' + this.dataset.value + ',';
+				searchUrl += "territory=" + encodeURI(this.dataset.value) + '&';
+			}
+			if(this.dataset.type == "trade2") {
+				searchConditionStr += '"secondaryIndustries":' + this.dataset.value + ',';
+				searchUrl += "secondaryIndustries=" + encodeURI(this.dataset.value) + '&';
+			}
+			if(this.dataset.type == "deal") {
+				searchConditionStr += '"dealType":' + this.dataset.value + ',';
+				searchUrl += "dealType=" + encodeURI(this.dataset.value) + '&';
+			}
+			if(this.dataset.type == "type") {
+				searchConditionStr += "&financialType=" + this.dataset.value + ',';
+				searchUrl += "financialType=" + encodeURI(this.dataset.value) + '&';
+			}
+		})
+
+		//一级行业的参数，用来进行回显用
+		$("#hangye1 a").each(function() {
+			if($(this).attr("class") == "hover") {
+				searchUrl += "primaryIndustries=" + encodeURI(this.dataset.value) + '&';
+			}
+		})
+
+		searchConditionStr = searchConditionStr.substring(0, searchConditionStr.length - 1);
+		searchConditionStr += "}";
+		$.ajax({
+			type: "post",
+			url: url + "/common/addSearchMessage.do",
+			async: true,
+			data: {
+				searchType: 5,
+				searchCondition: searchConditionStr,
+				analysisUrl: searchUrl.substring(0, searchUrl.length - 1),
+				searchName: $("#conditionName").val()
+			},
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader("UU");
+				xhr.setRequestHeader("phone");
+			},
+			success: function(data) {
+				if(data.retCode != 0000) {} else {
+					$.zmAlert("添加成功！");
+					$(".tcbackground").hide();
+					$(".qrdele").hide();
+				}
+			}
+		});
+	})
+
+});
+
+function checkConditionName() {
+	if($("#conditionName").val().length > 0) {
+		$("#defindName").hide();
+	} else {
+		$("#defindName").show();
+	}
+}
+//删除单个条件
+function delOne(data, type) {
+	if(type == "trade1") {
+		$("#hangye1 a").each(function() {
+			$(this).removeClass("hover");
+		})
+	}
+	if(type == "trade2") {
+		$("#hangye2 a").each(function() {
+			$(this).removeClass("hover");
+		})
+	}
+	if(type == "city") {
+		$("#area a").each(function() {
+			$(this).removeClass("hover");
+		})
+	}
+	if(type == "deal") {
+		$("[name='fs']").each(function() {
+			$("[name='tc']").each(function() {
+				$(this).removeAttr('checked');
+			})
+			$(this).removeClass("on");
+			$(this).css("color", "");
+		})
+	}
+	if(type == "type") {
+		$("[name='ff']").each(function() {
+			$("[name='financialType']").each(function() {
+				$(this).removeAttr('checked');
+			})
+			$(this).removeClass("on");
+			$(this).css("color", "");
+		})
+	}
+	$(data).parent().remove();
+	searchEarnings();
+}
+
+// 改变交易方式
+function choiceDeal() {
+	retrieveCondition("condition", "hangye2", "area", "tc", "financialType", "findEarnings");
+}
+
+// 改变年报类型
+function choiceFinancial() {
+	retrieveCondition("condition", "hangye2", "area", "tc", "financialType", "findEarnings");
+}
+
+// 进行条件查询
+function searchEarnings() {
+	getEarningsList(1, 20, getEarningsCondition());
+}
+
+// 获取查询条件
+function getEarningsCondition() {
+	var datas = "";
+	if($("#toneStartTime").val() != "") {
+		datas += "&starTime=" + $("#toneStartTime").val();
+	}
+	if($("#toneEndTime").val() != "") {
+		datas += "&endTime=" + $("#toneEndTime").val();
+	}
+	$($("#condition").children()).each(function() {
+		if(this.dataset.type == "city") {
+			datas += "&territory=" + this.dataset.value;
+		}
+		if(this.dataset.type == "trade2") {
+			datas += "&secondaryIndustries=" + this.dataset.value;
+		}
+		if(this.dataset.type == "deal") {
+			datas += "&dealType=" + this.dataset.value;
+		}
+		if(this.dataset.type == "type") {
+			datas += "&financialType=" + this.dataset.value;
+		}
+	})
+	return datas;
+}
+
+// 获取列表
+function getEarningsList(pageNum, pageSize, datas) {
+	if(datas != null && datas.length > 0) {
+		datas = "&" + datas;
+	} else {
+		datas = "";
+	}
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/financialList.do",
+		async: false,
+		data: "pageNum=" + pageNum + "&pageSize=" + pageSize + datas,
+		success: function(data) {
+			$("#listBox").html('');
+			if(data.retData.FianacialList != null) {
+				pdfLIst=data.retData.FianacialList;
+				$.each(data.retData.FianacialList, function(index, item) {
+					var tr = $("<tr>");
+					var td1 = $("<td class='quanxuan'>");
+					var td2 = $("<td class='gpdm'>");
+					var td3 = $("<td class='qyjc'>");
+					var td4 = $("<td class='ggrq'>");
+					var td5 = $("<td class='bglx'>");
+					var td6 = $("<td class='xiaz'>");
+					var td7 = $("<td class='gz'>");
+					td1.html("<input type='checkbox' class='choo'/>");
+					td2.html("<a href='/industryResearch.html?stockCode=" + item.stockCode + "&stockName=" + encodeURI(item.companyName) + "'>" + item.stockCode + "</a>");
+					td3.html("<a href='/industryResearch.html?stockCode=" + item.stockCode + "&stockName=" + encodeURI(item.companyName) + "'>" + item.companyName + "</a>");
+					td4.html(item.financialYear);
+					if((item.financialType)==1){
+						td5.html("季报");
+					}
+					if((item.financialType)==2){
+						td5.html("中报");
+					}
+					if((item.financialType)==3){
+						td5.html("年报");
+					}
+					if((item.financialType)==4){
+						td5.html("其他");
+					}
+					td6.html("<span class='pdf'></span>");
+					td6.on("click", function() {
+						download(item.financialStatements, item.financialName,index);
+					});
+					td7.html("<span class='wgz'></span>");
+					td7.on("click", function() {
+						var cla = $(this).children().attr("class");
+						if(cla == 'wgz') {
+							$(this).children().removeClass("wgz").addClass("ygz");
+							addCompany(item.stockCode);
+						} else {
+							$(this).children().removeClass("ygz").addClass("wgz");
+							deleCompany(item.stockCode);
+						}
+					});
+					tr.append(td1);
+					tr.append(td2);
+					tr.append(td3);
+					tr.append(td4);
+					tr.append(td5);
+					tr.append(td6);
+					tr.append(td7);
+					$("#listBox").append(tr);
+				});
+				// 分页
+				$('#page').pagination({
+					total: data.retData.pageTotal,
+					pageSize: pageSize,
+					layout: ['first', 'prev', 'links', 'next', 'last', 'manual'],
+					links: 7,
+					displayMsg: "",
+					beforePageText: '当前',
+					afterPageText: '共 {pages} 页',
+					onSelectPage: function(pageNumber, pageSize) {
+						getEarningsList(pageNumber, pageSize, getEarningsCondition());
+					}
+				});
+			} else {
+				var tr = $("<tr>");
+				var td = $("<td colspan='7'  scope='col'>");
+				td.html("暂无数据");
+				tr.append(td);
+				$("#listBox").html(tr);
+				$("#page").empty();
+			}
+			if(data.retData.pageTotal == null) {
+				$("#countNum").html("0");
+			} else {
+				$("#countNum").html(data.retData.pageTotal);
+			}
+			// 修改分页文字
+			setPageText();
+		}
+	});
+}
+
+function setPageText() {
+	$("#page tr td").eq(0).find(".l-btn-left ").html("首页");
+	$("#page tr td").eq(1).find(".l-btn-left ").html("上一页");
+	$("#page tr td").eq(3).find(".l-btn-left ").html("下一页");
+	$("#page tr td").eq(4).find(".l-btn-left ").html("末页");
+
+}

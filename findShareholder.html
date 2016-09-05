@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>找股东</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+		
+	</head>
+	<body>
+		<div class="tcbackground"></div>
+		<!--查找股东 star-->
+		<div class="chakgd">
+			<div class="chaktx_title">
+				<span>查找股东</span> <a href="javascript:;" onclick="hideDiv();">X</a>
+			</div>
+			<div class="chazhaogudong">
+				<input type="text" name="shareName" id="shareName" placeholder="请输入股东姓名"> <a
+					href="javascript:;" onclick="searchShare();">搜索</a>
+			</div>
+		</div>
+		<div class="tcbackground"></div>
+		<!--查看股东end-->
+		<div class="main">
+			<div class="crumbs"><a href="home.html">首页</a>＞<a>股东</a></div>
+			<div class="selection_box gudong">
+			<div class="select_list">
+				<div class="select_left"><span>自然人股东:</span></div>
+				<div class="select_hangye_box">
+				<div class="select_body">
+				<div class="body_info">
+				<div class="hangye_box" id="personList"></div>
+				</div>
+				<div class="select_right"><a href="javascript:;" onclick="showDiv();">搜索∨</a></div>
+				</div>
+					
+				</div>
+				<div class="clr"></div>
+			</div>
+            <div class="clr"></div>
+			
+			
+				<div class="select_list">
+				<div class="select_left"><span>一般企业股东:</span></div>
+				<div class="select_hangye_box">
+				<div class="select_body">
+				<div class="body_info">
+				<div class="hangye_box" id="shareList"><a href="#" class="hover">一般企业</a><a href="#">一般企业</a><a href="#">一般企业</a><a href="#">一般企业</a><a href="#">一般企业</a><a href="#">一般企业</a><a href="#">一般企业</a><a href="#">一般企业</a>
+					<a href="#">一般企业</a> <a href="#">一般企业</a><a href="#">一般企业</a>
+				</div>
+				</div>
+				<div class="select_right"><a href="javascript:;" onclick="showDiv();">搜索∨</a></div>
+				</div>
+					
+				</div>
+				<div class="clr"></div>
+			</div>
+            <div class="clr"></div>
+            <div class="select_list">
+				<div class="select_left"><span>投资机构股东:</span></div>
+				<div class="select_hangye_box">
+				<div class="select_body">
+				<div class="body_info">
+				<div class="hangye_box" id="organizationList"><a href="#" class="hover">投资机构股东1</a><a href="#">投资机构股东1</a><a href="#">投资机构股东1</a><a href="#">投资机构股东1</a><a href="#">投资机构股东1</a><a href="#">投资机构股东1</a><a href="#">投资机构股东1</a><a href="#">投资机构股东1</a>
+					<a href="#">投资机构股东1</a> <a href="#">投资机构股东1</a><a href="#">投资机构股东1</a>
+				</div>
+				</div>
+				<div class="select_right"><a href="javascript:;" onclick="showDiv();">搜索∨</a></div>
+				</div>
+					
+				</div>
+				<div class="clr"></div>
+			</div>
+            <div class="clr"></div>
+			   
+			
+            
+             
+		
+			<div class="select_list last">
+			<div class="select_left"><span>检索条件:</span></div>
+			<div class="select_body">
+			<div class="jstj">	
+			<div style="display: inline;" id="condition"></div>
+			<span id="deleCondition">清空筛选</span><a href="javascript:;" id="showConditionWindow" class="bcsx">保存我的筛选</a><em id="choiceCondition" >请选择筛选条件</em>
+			</div>
+			</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+			<div class="cx_title">
+				<div class="title_left_fh">
+					<span>符合条件的企业：<i id="countNum">40</i>家</span>
+				</div>
+				<div class="title_right_fh"><a href="javascript:;" id="exportTable">导出表格</a></div>
+				<div class="clr"></div>
+			</div>
+			<div class="fh_tj_table">
+				<table width="100%" border="1">
+				<thead>
+					<tr>
+						<th scope="col" class="quanxuan"><input type="checkbox" class="qx" id="selectAll"/>全选</th>
+						<th scope="col" class="gpdm">股票代码</th>
+						<th scope="col" class="qyjc">企业简称</th>
+						<th scope="col" class="jyfs">交易方式</th>
+						<th scope="col" class="sshy">所属行业</th>
+						<th scope="col" class="diqu">地区</th>
+						<th scope="col" class="gz">关注</th>
+					</tr>
+				</thead>
+				<tbody id="listBox">
+				</tbody>
+</table>
+
+			</div>
+			<div class="fh_btn_pages">
+				<div class="pages" id="page"></div>
+				<div class="clr"></div>
+			</div>
+			</div>
+		</div>
+		
+		<!--保存检索条件 star-->
+		<div class="qrdele top2 fixe">
+			<div class="qr_title"><span>保存我的检索</span><a href="javascript:;" name="cancel">X</a></div>
+			<div class="qr_box">
+				<ul>
+					<li class="clearfix"><span>搜索条件：</span><textarea id="conditionContent" disabled="disabled"></textarea></li>
+					<li class="clearfix"><span>命名自定义检索：</span><input type="text" id="conditionName" maxlength="12" onkeyup="checkConditionName();" placeholder="请输入一个检索方案名"/>
+						<b id="defindName" >请自定义检索名称</b>
+					</li>
+				</ul>
+			<div class="clr"></div>
+			</div>
+			
+			<div class="qr_dele_btn"><button class="save" id="saveCondition" onclick="addSearch()"; >保存</button><button class="quxiao" name="cancel">取消</button></div>
+		</div>
+		<!--保存检索条件 end-->
+		
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.parser.js" ></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.linkbutton.js" ></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.pagination.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/findShareholder.js"></script>
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script src="js/rightMenu.js"></script>
+		<script src="js/head2.js"></script> 
+		<script src="js/user.js"></script>
+		<script src="js/footer.js"></script>
+	</body>
+</html>

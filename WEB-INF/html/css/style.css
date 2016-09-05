@@ -1,0 +1,130 @@
+.main {
+	width: 1000px;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+
+.list_box {
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 50px;
+	border: 1px solid #ccc;
+}
+
+.list_info {
+	width: 96%;
+	margin: 0 auto;
+	border-bottom: 1px solid #ccc;
+	padding: 15px 15px;
+}
+
+.list_info a h2 {
+	display: block;
+	width: 100%;
+	height: 20px;
+	line-height: 20px;
+	font-size: 16px;
+	color: #000;
+}
+
+.list_info p {
+	display: block;
+	line-height: 24px;
+	text-align: left;
+	text-indent: 2em;
+	color: #888;
+}
+
+.list_info p a {
+	display: inline-block;
+	color: #F60;
+}
+
+/**内容页**/
+
+.info_title {
+	width: 100%;
+	margin: 0 auto;
+}
+
+.info_title h2 {
+	font-size: 20px;
+	font-weight: bold;
+	text-align: center;
+	width: 100%;
+	color: #000;
+}
+
+.list_info_box {
+	width: 1000px;
+	margin: 0 auto;
+	margin-top: 50px;
+}
+
+.list_info_box p {
+	width: 100%;
+	margin: 0 auto;
+	text-align: left;
+	text-indent: 2em;
+	line-height: 24px;
+	color: #888;
+	margin-bottom: 20px;
+	font-size: 16px;
+}
+
+.infopage {
+	width: 100%;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+
+.infopage a {
+	display: inline-block;
+	color: #F60;
+	font-size: 14px;
+}
+
+.infopage a.pret {
+	float: left;
+}
+
+.infopage a.next {
+	float: right;
+}
+/*分页*/
+#page {
+	position: relative;
+	/*margin: 50px 0;*/
+	padding: 50px 0;
+}
+#page table{
+	position: absolute;
+	left: 50%;
+	margin-left: -356px;
+}
+#page tr td>a {
+	color: #888;
+	padding: 3px 10px;
+	border: 1px solid #ccc;
+	margin-right: 10px;
+}
+
+#page tr td>a.l-btn-plain-disabled {
+	background: #ccc;
+	color: #fff;
+	border: 1px solid #666;
+	cursor: not-allowed;
+}
+
+#page tr td>a.l-btn-plain-selected {
+	background: gold;
+	color: darkgreen;
+	border: 1px solid #ccc;
+}
+
+#page input[type='text'] {
+	height: 25px;
+	width: 40px;
+	border: 1px solid #ccc;
+	padding: 0 10px;
+}

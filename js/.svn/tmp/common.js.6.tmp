@@ -1,0 +1,607 @@
+var countDown; //短信验证码倒计时
+var smsCodes; //短信验证码计时器
+var url = ''; //ajax请求公共地址
+var searchList=[];
+isLogin();//判断登录
+$(function() {
+	// 模拟所有的单选框、多选框
+	$(".data-radio label").on(
+		"click",
+		function() {
+			$(this).parent().find(".radio").addClass("on");
+			$(this).parent().find(".radio").next(".radioWord").css("color",
+				"#5fbdd3")
+			if ($(this).parent().siblings("div").hasClass("data-radio")) {
+				$(this).parent().siblings(".data-radio").find(".radio")
+					.removeClass("on");
+				$(this).parent().siblings(".data-radio").find(".radio")
+					.next(".radioWord").css("color", "")
+			} else {
+				$(this).parent().parent().siblings().find(".radio")
+					.removeClass("on");
+			}
+			// changeParam();
+		});
+	$(".data-checkbox label").on("click", function(e) {
+		if ($(this).hasClass("on")) {
+			$(this).removeClass("on");
+			$(this).next(".checkboxWord").css("color", "")
+		} else {
+			$(this).addClass("on");
+			$(this).next(".checkboxWord").css("color", "#5fbdd3");
+		}
+
+		e.stopPropagation();
+	});
+	$(".data-checkbox .checkboxWord").on("click", function(e) {
+		if ($(this).siblings(".checkbox").hasClass("on")) {
+			$(this).siblings(".checkbox").removeClass("on");
+			$(this).css("color", "")
+		} else {
+			$(this).siblings(".checkbox").addClass("on");
+			$(this).css("color", "#5fbdd3");
+		}
+
+		e.stopPropagation();
+	});
+	// 所有form表单屏蔽 提交事件
+	$("form").on("submit", function() {
+		return false;
+	});
+
+});
+
+function loginAjax(mobile, pwd) {
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/toLogin.do",
+		async: true,
+		data: {
+			phoneNumber: mobile,
+			password: pwd
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				var result=data.retData;
+				$.cookie('UU', result.UU, {
+					expires: 30
+				});
+				$.cookie('phone', result.Phone, {
+					expires: 30
+				});
+				$.cookie('userName', result.UserName, {
+					expires: 30
+				});
+				$.cookie('headImg', result.imageUrl, {
+					expires: 30
+				});
+				window.location.href = 'home.html';
+			} else if(data.retCode == 3006){
+				$("#loginMsg").show();
+				$("#loginMsg").html(data.retMsg);
+			}else{
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+// 短信验证码
+function sendSMS(me) {
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/verificationCode1.do",
+		async: true,
+		data: {
+			phoneNumber: $("#phoneNumber").val()
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				sendSMSCountdown(me);
+			} else {
+				console.log(data.retMsg);
+			}
+
+		}
+	});
+}
+// 短信验证码倒计时
+function sendSMSCountdown(me) {
+	clearInterval(smsCodes);
+	countDown = 60
+	me.addClass("disabled").attr("disabled", "disabled").html(
+		countDown + "秒后再发送"); // 最后这个html去掉定时器一秒的延迟
+	smsCodes = setInterval(function second() {
+		countDown--;
+		if (countDown != 0) {
+			me.html(countDown + "秒后再发送");
+		} else {
+			me.html("获取验证码").removeClass("disabled").removeAttr("disabled");
+			clearInterval(smsCodes);
+		}
+
+	}, 1000);
+}
+
+// 获取地址栏参数
+function getUrlParam(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); // 构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg); // 匹配目标参数
+	if (r != null)
+		return unescape(r[2]);
+	return null; // 返回参数值
+}
+
+// 必须为数字n:输入框id k:可输入最大值
+function mustNumber(n, k) {
+	var a = $("#" + n).val();
+	var numRex = /^[0-9]*.{1,1}[0-9]*$/;
+	if (isNaN(a) == true) {
+		$("#" + n).val("");
+	}
+	var c = parseFloat(k);
+	if ($("#" + n).val() > c) {
+		$("#" + n).val(c);
+	}
+}
+
+// --------图片上传start--------------
+function newBlob(data, datatype) {
+	var out;
+	try {
+		out = new Blob([data], {
+			type: datatype
+		});
+	} catch (e) {
+		window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+
+		if (e.name == 'TypeError' && window.BlobBuilder) {
+			var bb = new BlobBuilder();
+			bb.append(data.buffer);
+			out = bb.getBlob(datatype);
+		} else if (e.name == "InvalidStateError") {
+			out = new Blob([data], {
+				type: datatype
+			});
+		} else {}
+	}
+	return out;
+}
+
+// 判断是否需要blobbuilder
+var needsFormDataShim = (function() {
+		var bCheck = ~navigator.userAgent.indexOf('Android') && ~navigator.vendor.indexOf('Google') && !~navigator.userAgent.indexOf('Chrome');
+
+		return bCheck && navigator.userAgent.match(/AppleWebKit\/(\d+)/).pop() <= 534;
+	})(),
+	blobConstruct = !!(function() {
+		try {
+			return new Blob();
+		} catch (e) {}
+	})(),
+	XBlob = blobConstruct ? window.Blob : function(parts, opts) {
+		var bb = new(window.BlobBuilder || window.WebKitBlobBuilder || window.MSBlobBuilder);
+		parts.forEach(function(p) {
+			bb.append(p);
+		});
+
+		return bb.getBlob(opts ? opts.type : undefined);
+	};
+
+function FormDataShim() {
+	// Store a reference to this
+	var o = this,
+		parts = [], // Data to be sent
+		boundary = Array(5).join('-') + (+new Date() * (1e16 * Math.random())).toString(32),
+		oldSend = XMLHttpRequest.prototype.send;
+
+	this.append = function(name, value, filename) {
+		parts.push('--' + boundary + '\r\nContent-Disposition: form-data; name="' + name + '"');
+
+		if (value instanceof Blob) {
+			parts.push('; filename="' + (filename || 'blob') + '"\r\nContent-Type: ' + value.type + '\r\n\r\n');
+			parts.push(value);
+		} else {
+			parts.push('\r\n\r\n' + value);
+		}
+		parts.push('\r\n');
+	};
+
+	// Override XHR send()
+	XMLHttpRequest.prototype.send = function(val) {
+		var fr, data, oXHR = this;
+
+		if (val === o) {
+			// 注意不能漏最后的\r\n ,否则有可能服务器解析不到参数.
+			parts.push('--' + boundary + '--\r\n');
+			data = new XBlob(parts);
+			fr = new FileReader();
+			fr.onload = function() {
+				oldSend.call(oXHR, fr.result);
+			};
+			fr.onerror = function(err) {
+				throw err;
+			};
+			fr.readAsArrayBuffer(data);
+
+			this.setRequestHeader('Content-Type',
+				'multipart/form-data; boundary=' + boundary);
+			XMLHttpRequest.prototype.send = oldSend;
+		} else {
+			oldSend.call(this, val);
+		}
+	};
+}
+
+// 把图片转成formdata 可以使用的数据...
+// 这里要把\s替换掉..要不然atob的时候会出错....
+function dataURLtoBlob(data) {
+	var tmp = data.split(',');
+
+	tmp[1] = tmp[1].replace(/\s/g, '');
+	var binary = atob(tmp[1]);
+	var array = [];
+	for (var i = 0; i < binary.length; i++) {
+		array.push(binary.charCodeAt(i));
+	}
+	return new newBlob(new Uint8Array(array), 'image/jpeg');
+}
+
+function uoploadPic(dataUrl) { // n:隐藏域ID
+	var fd = needsFormDataShim ? new FormDataShim() : new FormData();
+	var files = dataURLtoBlob(dataUrl);
+	fd.append('file', files);
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/uploadUserAvatar.do",
+		data: fd,
+		async: false,
+		processData: false, // 告诉jQuery不要去处理发送的数据
+		contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				$(".img_box").hide();
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+// ---------图片上传end-------------
+
+function getVerifyNum() { // 图片验证码
+	$.ajax({
+		type: "post",
+		url: url + "/valCode/getVerifyNum.do",
+		async: false,
+		data: {},
+		// beforeSend: function(xhr) {
+		// xhr.setRequestHeader("UU", $.cookie("UU"));
+		// xhr.setRequestHeader("phone", $.cookie("phone"));
+		// },
+		success: function(data) {
+			if (data.retCode == 0000) {
+				var result = data.retData;
+				$("#VerifyNumImg").attr("src","/valCode/" + result.path);
+				$("#VerifyNumImg").attr("data-name", result.path);
+				$("#verify_num").rules("remove", "remote");
+				$("#verify_num").rules("add", {
+					remote: {
+						url: url + "/tbuser/testVerifyNum.do", // 后台处理程序
+						type: "post", // 数据发送方式
+						dataType: "json", // 接受数据格式
+						data: { // 要传递的数据
+							verName: result.path
+						}
+					}
+				});
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+
+// 获取行业信息
+// tradeGrade行业级别，position行业所显示的位置的ID,position二级行业所显示的位置的ID
+function commonFindTrade(tradeGrade, position, position2, parentName,
+	condition, op1, op2, op3, op4, pageName) {
+	$("#" + op1).empty();
+	$.ajax({
+		type: "post",
+		url: url + "/common/findTrade.do",
+		async: true,
+		data: {
+			tradeGrade: tradeGrade,
+			parentName: parentName
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				$("#" + position).empty();
+				$(data.retData.tradeList).each(
+					function() {
+						var hangye = $("<a href='javascript:;' data-value=" + this.tradeName + " >");
+						var tradeName = this.tradeName;
+						var tradeGrade = this.tradeGrade;
+						hangye.html(tradeName);
+						hangye.on("click", function() {
+							$(this).addClass("hover").siblings()
+								.removeClass("hover");
+							if (tradeGrade == 1) {
+								findTrade2(position2, tradeName, condition,
+									op1, op2, op3, op4, pageName);
+							}
+							retrieveCondition(condition, op1, op2, op3, op4,
+								pageName);
+						});
+						$("#" + position).append(hangye);
+					});
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+
+// 获取二级行业信息
+function findTrade2(position, parentName, condition, op1, op2, op3, op4, pageName) {
+	commonFindTrade(2, position, "", parentName, condition, op1, op2, op3, op4,
+		pageName);
+}
+
+// 获取城市信息
+function findArea(position, condition, op1, op2, op3, op4, pageName) {
+	$.ajax({
+		type: "post",
+		url: url + "/common/findArea.do",
+		async: true,
+		data: {
+			tradeGrade: ""
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				$(data.retData.cityList).each(
+					function() {
+						var area = $("<a href='javascript:;' data-value=" + this.cityName + " >");
+						area.html(this.cityName);
+						area.on("click", function() {
+							$(this).addClass("hover").siblings()
+								.removeClass("hover");
+							retrieveCondition(condition, op1, op2, op3, op4,
+								pageName);
+						})
+						$("#" + position).append(area);
+					})
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+
+// 添加检索条件
+// condition显示条件位置的ID,行业信息位置ID,op1,城市信息位置ID,op2,交易方式input标签的name属性值op3,,区别来自不同的页面执行不同的查询列表pageName
+function retrieveCondition(condition, op1, op2, op3, op4, pageName) {
+	$("#" + condition).empty();
+	// 判断行业信息是否存在，是什么行业信息
+	if (op1 != "") {
+		$($("#" + op1).children()).each(function() {
+			var text = $(this).text();
+			if ($(this).attr("class") == "hover") {
+				var p1 = $("<a href='javascript:;' data-type='trade2' data-value=" + this.dataset.value + " ></a>");
+				p1.html(text + "<i onclick='delOne(this,\"trade2\")' >x</i>");
+				$("#" + condition).append(p1);
+			}
+		})
+	}
+	// 判断城市信息是否存在，是什么城市
+	if (op2 != "") {
+		$($("#" + op2).children()).each(function() {
+			var text = $(this).text();
+			if ($(this).attr("class") == "hover") {
+				var p2 = $("<a href='javascript:;' data-type='city' data-value=" + this.dataset.value + " ></a>");
+				p2.html(text + "<i onclick='delOne(this,\"city\")'>x</i>");
+				$("#" + condition).append(p2);
+			}
+		})
+	}
+
+	// 判断交易方式是否存在，是什么交易方式
+	if (op3 != "") {
+		$("[name=" + op3 + "]").each(function() {
+			if ($(this).attr("checked")) {
+				var p3 = $("<a href='javascript:;' data-type='deal' data-value=" + $(this).val() + " ></a>");
+				p3.html(this.dataset.name + "<i onclick='delOne(this,\"deal\")'>x</i>");
+				$("#" + condition).append(p3);
+			}
+		})
+	}
+	//判断年报类型是否存在，是那种年报
+	if (op4 != "") {
+		$("[name=" + op4 + "]").each(function() {
+			if ($(this).attr("checked")) {
+				var p3 = $("<a href='javascript:;' data-type='type' data-value=" + $(this).val() + " ></a>");
+				p3.html(this.dataset.name + "<i onclick='delOne(this,\"type\")'>x</i>");
+				$("#" + condition).append(p3);
+			}
+		})
+	}
+
+	if (pageName == "findIndustry") {
+		$($("#hangye1").children()).each(function() {
+			var text = $(this).text();
+			if ($(this).attr("class") == "hover") {
+				var p1 = $("<a href='javascript:;' data-type='trade1' data-value=" + this.dataset.value + " ></a>");
+				p1.html(text + "<i onclick='delOne(this,\"trade1\")'>x</i>");
+				$("#" + condition).append(p1);
+			}
+		})
+	}
+
+	if (pageName == "findEnterprise") {
+		getEnterpriseList(1, 10, getEnterpriseCondition());
+	}
+
+	if (pageName == "findEarnings") {
+		getEarningsList(1, 20, getEarningsCondition());
+	}
+
+	if (pageName == "findIndustry") {
+		getIndustryList(1, 10, getIndustryCondition());
+	}
+}
+
+// 退出登录
+function dropOut() {
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/cancelLogin.do",
+		async: true,
+		data: {},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				$.cookie('UU', '', {
+					expires: -1
+				});
+				$.cookie('phone', '', {
+					expires: -1
+				});
+				$.cookie('userName', '', {
+					expires: -1
+				});
+				$.cookie('headImg', '', {
+					expires: -1
+				});
+				window.location.href = 'login.html';
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+	//	if (pageName == "findIndustry") {
+	//		getIndustryList(1, 10, getIndustryCondition());
+	//	}
+}
+
+// 添加用户关注企业 参数股票代码
+function addCompany(stockCode) {
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/insertTbUserCompany.do",
+		async: false,
+		data: {
+			stockCode: stockCode
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+//取消用户关注企业
+function deleCompany(stockCode) {
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/cancelTbUserCompany.do",
+		async: true,
+		data: {
+			stockCode: stockCode
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+/**
+ * 查询该企业是否关注
+ * @return true 关注，false 未关注 
+ */
+function findCompany(stockCode){
+	var isAttention=false;
+	$.ajax({
+		type : "post",
+		url : url + "/tbuser/viewTbUserCompanyOne.do",
+		async : false,
+		data : {
+			stockCode : stockCode
+		},
+		success : function(data) {
+			isAttention=data;
+		}
+	});
+	return isAttention;
+}
+//搜索信息不全
+function autocomplete(request,response) {
+	$.ajax({
+		type: "post",
+		url: url + "/enterprise/findCodeName.do",
+		async: false,
+		data: {
+			codeName: request.term,
+			pageNum: 1,
+			pageSize: 5
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if (data.retCode == 0000) {
+				if (data.retData == null) {
+					return false;
+				}
+				var arr = [];
+				$.each(data.retData, function(i, item) {
+					var obj = {
+						label: item.companyForShort + "（" + item.stockCode + "）",
+						value: item.companyForShort + "（" + item.stockCode + "）",
+						name: item.companyForShort,
+						code: item.stockCode
+					}
+					arr.push(obj);
+				});
+				searchList=arr;
+				response(arr);
+			} else {
+				console.log(data.retMsg);
+			}
+		}
+	});
+}
+//判断登录状态
+function isLogin() {
+	var urlHtml = window.location.pathname;
+	if (urlHtml.match("login.html") != null || urlHtml.match("register.html") != null || urlHtml.match("retrievePassword.html") != null) { //登录页
+		if ( $.cookie("UU") != undefined &&$.cookie("phone")!=undefined) {
+			window.location.href = "home.html";
+		}
+	} else { //非登录页（内容页）
+		if ($.cookie("UU") == undefined || $.cookie("phone")==undefined) {
+			window.location.href = "login.html";
+		}
+	}
+}
+// ---------扩展表单校验规则
+if (jQuery.validator) {
+	jQuery.validator.addMethod("mobile", function(value, element) {
+		var tel = /^1[3|4|5|7|8]{1}[\d]{9}$/;
+		return this.optional(element) || (tel.test(value));
+	}, "请正确填写您的手机号");
+	jQuery.validator.addMethod("password", function(value, element) {
+		var tel = /^[a-zA-Z0-9~!@#$%^&*()_+\-={}:;<>?,.\/]{6,16}$/;
+		return this.optional(element) || (tel.test(value));
+	}, "您输入的密码格式不正确");
+}

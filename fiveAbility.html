@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>五能力对标分析</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/indexstyle.css" />
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+	</head>
+
+	<body>
+		
+	<div class="main">
+		<div class="crumbs">
+			<a href="home.html">首页</a> &gt;
+			<a>企业财务指标对标分析</a>
+		</div>
+	</div>
+	<div class="cwbanner"><img src="images/wnlbanner.jpg"/></div>
+		<!--数据分析 star-->
+		<div class="ksjs_bb">
+			<!--财务指标分析-->
+			<div class="data_xl_box cwzb_xl">
+				<div class="cwzbfx">
+					<ul id="companyList">
+						<li class="search">
+							<input id="searchStock" type="text" placeholder="股票代码/企业简称" />
+							<a href="javascript:;" id="addCompany">添加</a>
+							<input type="hidden" id="searchName" value="" />
+							<input type="hidden" id="searchCode" value="" />
+						</li>
+						<!--<li class="tj_gs" data-num="430127" data-name="英雄互娱">
+							<span>英雄互娱 430127</span>
+							<a href="javascript:;"><img src="images/cha.jpg" width="37" height="38" /></a>
+						</li>
+						<li class="tj_gs" data-num="400008" data-name="水仙A5">
+							<span>水仙A5 400008</span>
+							<a href="javascript:;"><img src="images/cha.jpg" width="37" height="38" /></a>
+						</li>
+						<li class="tj_gs" data-num="832043" data-name="卫东环保">
+							<span>卫东环保 832043</span>
+							<a href="javascript:;"><img src="images/cha.jpg" width="37" height="38" /></a>
+						</li>-->
+					</ul>	
+					<div class="clr"></div>
+				</div>
+				<div class="clr"></div>
+				<div class="xl_title wnl_nr"><span>请选择企业能力、时间节点：</span></div>
+				<div class="clr"></div>
+				<div class="xl_list">
+					<ul class="wnl">
+						<li><span>企业能力(单选):</span>
+							<div class="wnl_r" id="chooseWord">
+								<div class="data-radio">
+									<input type="radio" id="dqchnl" value="1" name="fiveName" />
+									<label for="dqchnl" class="radio"></label>
+									<label class="radioWord" for="dqchnl">短期偿债能力——包括：流动比率、速动比率、现金资产比率</label>
+								</div>
+								<div class="data-radio">
+									<input type="radio" id="cqchnl" value="2" name="fiveName" />
+									<label for="cqchnl" class="radio"></label>
+									<label class="radioWord" for="cqchnl">长期偿债能力——包括：资产负债率、产权比率、利息偿付倍数</label>
+								</div>
+								<div class="data-radio">
+									<input type="radio" id="yynl" value="3" name="fiveName" />
+									<label for="yynl" class="radio"></label>
+									<label class="radioWord" for="yynl">运营能力——包括：流动资产周转率，应收账款周转率、存货周转率、总资产周转率、固定资产周转率</label>
+								</div>
+								<div class="data-radio">
+									<input type="radio" id="ylnl" value="4" name="fiveName" />
+									<label for="ylnl" class="radio"></label>
+									<label class="radioWord" for="ylnl">盈利能力——包括：营业利润率，成本费用利润率，盈余现金保障倍数，总资产报酬率，净资产收益率，资本收益率，市盈率</label>
+								</div>
+								<div class="data-radio">
+									<input type="radio" id="fznl" value="5" name="fiveName" />
+									<label for="fznl" class="radio"></label>
+									<label class="radioWord" for="fznl">发展能力——包括：营业收入增长率，资本保值增值率，资本积累率，总资产增长率，营业利润增长率，营业收入三年平均增长率，资本三年平均增长率</label>
+								</div>
+							</div>
+						</li>
+						<div class="clr"></div>
+						<li><span>时间节点:</span>
+							<div class="wnl_rs" id="chooseTimes">
+								<div class="data-radio">
+									<input type="radio" id="fTime1" value="2015-12-31" name="fiveTime" />
+									<label for="fTime1" class="radio"></label>
+									<label class="radioWord" for="fTime1">2015年12月</label>
+								</div>
+								<div class="data-radio">
+									<input type="radio" id="fTime2" value="2015-06-30" name="fiveTime" />
+									<label for="fTime2" class="radio"></label>
+									<label class="radioWord" for="fTime2">2015年6月</label>
+								</div>
+								<div class="data-radio">
+									<input type="radio" id="fTime3" value="2014-12-31" name="fiveTime" />
+									<label for="fTime3" class="radio"></label>
+									<label class="radioWord" for="fTime3">2014年12月</label>
+								</div>
+								<div class="data-radio">
+									<input type="radio" id="fTime4" value="2014-06-30" name="fiveTime" />
+									<label for="fTime4" class="radio"></label>
+									<label class="radioWord" for="fTime4">2014年6月</label>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="clr"></div>
+					<div class="datafx_btn" id="fiveChartBtn">
+						<a href="javascript:;" data-num="2">开始分析</a>
+					</div>
+				</div>
+			</div>
+			<div class="dataAnalysisTable" data-num="2" style="width: 100%;left: 0;">
+				<div class="sjb_table quotationList" id="fivePower">
+					<table id="fivePowerTable">
+						<thead>
+							<tr></tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+				<div class="shouqi">
+					<a href="javascript:;" data-gb="2"><img src="images/shouqi.jpg" width="40" height="39" /></a>
+				</div>
+			</div>
+			<!--财务指标分析-->
+		</div>
+		<script src="http://cdn.bootcss.com/echarts/3.2.0/echarts.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/footer.js"></script>
+		<script type="text/javascript" src="js/head2.js"></script>
+		<script type="text/javascript" src="js/user.js"></script>
+		<script type="text/javascript" src="js/trading.js"></script>
+		<script type="text/javascript" src="js/fiveAbility.js" ></script>
+	</body>
+
+</html>

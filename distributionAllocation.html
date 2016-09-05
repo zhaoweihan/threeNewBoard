@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8">
+		<title>发行分配</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+		<link rel="stylesheet" type="text/css" href="css/businessDetails.css">
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="main">
+			<div class="main_center">
+				<!--<div class="main_left">
+					 <ul>
+						<li class="qyzl"><a href="javascript:;">企业资料</a></li>
+						<li class="gsgg"><a href="javascript:;" class="hover">公司公告</a></li>
+						<li class="gbgd"><a href="javascript:;">股本股东</a></li>
+						<li class="cwsj"><a href="javascript:;">财务数据</a></li>
+						<li class="fxfp"><a href="javascript:;">发行分配</a></li>
+						<li class="yqjc"><a href="javascript:;">舆情监测</a></li>
+						<li class="hyyj"><a href="javascript:;">行业研究</a></li>
+					</ul> 
+				</div>-->
+				<div class="main_right">
+					<div class="right_dbox">
+						<!-- <div class="right_nav">
+							<div class="r_n_left">
+								<h2 id="stockName">中科软</h2>
+								<em id="stockCode">(430002)</em>
+								<a href="javascript:void(0);" id="attention">关注</a>
+								此处关注成功之后 给a标签添加class="on"
+							</div>
+							<div class="r_n_right">
+								<a href="javascript:;" class="cwdb">财务指标对标分析</a>
+								<a href="javascript:;" class="wnldb">五能力对标分析</a></div>
+							<div class="clr"></div>
+						</div> -->
+						<div class="clr"></div>
+						<div class="main_r_center">
+							<div class="r_center_title"> <span>定增公告</span> </div>
+							
+							<div class="gsgg_box">
+								<ul id="notice">
+									<!-- <li>
+											<a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a>
+											<span>2016-06-28</span>
+											<i>下载</i>
+										</li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li> -->
+								</ul>
+							</div>
+							
+						</div>
+						<div class="clr"></div>
+						<div class="main_r_center">
+							<div class="r_center_title"><span>定增情况</span></div>
+							<div class="r_center_box">
+								<div class="center_title" >
+									<a href="javascript:void(0);" onclick="privatePlacementType()" class="hover" >增发预案</a>
+									<a href="javascript:void(0);" onclick="privatePlacementType(5)">已完成增发 </a>
+								</div>
+
+							</div>
+							<div class="fxfp_box">
+								
+								<table width="100%" border="1">
+									<thead>
+										<tr>
+											<th scope="col" >公告日期</th>
+											<th scope="col" >最新进度</th>
+							                <th scope="col" >发行价（元）</th>
+							                <th scope="col" >发行量（万股）</th>
+							                <th scope="col" class="mjje">募集金额（万元）</th>
+							                <th scope="col" >融资市盈率</th>
+							                <th scope="col" >溢价率</th>
+							                <th scope="col" >发行对象</th>
+										</tr>
+									</thead>
+									<tbody id="privatePlacement">
+									
+									</tbody>
+									<!-- <tr>
+											<td >2016-07-01</td>
+											<td >最新进度</td>
+							                <td >50</td>
+							                <td >100</td>
+							                <td class="mjje">200</td>
+							                <td > 25%</td>
+							                <td >30%</td>
+							                <td >发行对象</td>
+											
+									</tr>
+									<tr>
+											<td >2016-07-01</td>
+											<td >最新进度</td>
+							                <td >50</td>
+							                <td >100</td>
+							                <td class="mjje">200</td>
+							                <td > 25%</td>
+							                <td >30%</td>
+							                <td >发行对象</td>
+											
+									</tr>
+									<tr>
+											<td >2016-07-01</td>
+											<td >最新进度</td>
+							                <td >50</td>
+							                <td >100</td>
+							                <td class="mjje">200</td>
+							                <td > 25%</td>
+							                <td >30%</td>
+							                <td >发行对象</td>
+											
+									</tr>
+									<tr>
+											<td >2016-07-01</td>
+											<td >最新进度</td>
+							                <td >50</td>
+							                <td >100</td>
+							                <td class="mjje">200</td>
+							                <td > 25%</td>
+							                <td >30%</td>
+							                <td >发行对象</td>
+											
+									</tr> -->
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+
+		</div>
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script src="js/footer.js"></script>
+		<script src="js/user.js"></script>
+		<script src="js/head2.js"></script>
+		<script src="js/detailCommon.js"></script>
+		<script type="text/javascript" src="js/distributionAllocation.js"></script>
+	</body>
+
+</html>

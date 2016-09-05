@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>列表页</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+
+	<body>
+		<div class="main">
+		<div class="list_box">
+			<!--<div class="list_info clr">
+				<a href="#"><h2>卖馄饨阿姨3000元入市赚500万 称炒股不能盲目</h2></a>
+				<p>在最近热播的炒股类节目中，走出了一位闻名全国的“馄饨阿姨”，靠着卖馄饨积攒的3000元入市，积累了近... <a href="#">阅读全文</a></p>
+			</div>-->
+		</div>
+		<!--<div class="page">
+			<a href="home.html">首页</a><a href="#">上一页</a><a href="#">1</a><a href="#">...</a><a href="#">5</a><a href="#">下一页</a><a href="#">末页</a><a href="#">共50页</a>
+		</div>
+		<br /><br />-->
+		<div id="page"></div>
+		</div>
+		<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.parser.js" ></script>
+		<script type="text/javascript" src="js/jquery.linkbutton.js" ></script>
+		<script type="text/javascript" src="js/jquery.pagination.js"></script>
+		<script type="text/javascript" src="js/common.js" ></script>
+		<script type="text/javascript" src="js/list.js" ></script>
+	</body>
+
+</html>

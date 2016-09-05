@@ -1,0 +1,308 @@
+$(function() {
+	findTrade();
+	//切换图片验证码
+	$("#VerifyNumImg").on("click", function() {
+		getVerifyNum();
+	});
+	//上传头像
+	var upfile = document.querySelector('#files1');
+	upfile.onchange = function() {
+			if(upfile.files) {
+				var f = upfile.files[0];
+				var filesize = f.size < 5120 || f.size > 5242880;
+				var allow_type = '|.jpg|jpeg|.png|';
+				var ext_name = '|' + f.name.toLowerCase().substr(f.name.length - 4) + '|';
+				var filetype = (allow_type.indexOf(ext_name) == -1);
+				if(filesize) {
+					file_obj = false;
+					$.zmAlert("您选择的文件大于5MB或小于5K，请选择合适的照片");
+					return false;
+				}
+				$(".img_box").show();
+			}
+		}
+		//上传头像重新选择
+	$("#reselect").on("click", function() {
+		$("#files1").click();
+	});
+	var clipArea = new bjj.PhotoClip("#clipArea", {
+		size: [200, 200],
+		outputSize: [100, 100],
+		file: "#files1",
+		view: "#view",
+		ok: "#clipBtn",
+		strictSize: true,
+		loadStart: function() {
+			console.log("照片读取中");
+		},
+		loadComplete: function() {
+			console.log("照片读取完成");
+		},
+		clipFinish: function(dataURL) {
+			//console.log(dataURL);
+			uoploadPic(dataURL);
+		}
+	});
+	//表单验证
+	var rgValidator = $("#registerForm").validate({
+		rules: {
+			phoneNumber: {
+				required: true,
+				mobile: true,
+				maxlength: 11,
+				remote: {
+					url: url + "/tbuser/checkPhoneNum.do", //后台处理程序
+					type: "post", //数据发送方式
+					dataType: "json", //接受数据格式   
+					data: { //要传递的数据
+						type: 0
+					}
+				}
+			},
+			password: {
+				required: true,
+				password: true,
+				rangelength: [6, 16]
+			},
+			verifyNum: {
+				required: true,
+				remote: {
+					url: url + "/tbuser/testVerifyNum.do", //后台处理程序
+					type: "post", //数据发送方式
+					dataType: "json", //接受数据格式   
+					data: { //要传递的数据
+						verName: $("#VerifyNumImg").attr("data-name")
+					}
+				}
+			},
+			verificationCode: {
+				required: true,
+				digits: true,
+				rangelength: [4, 6],
+				remote: {
+					url: url + "/tbuser/testVerificationCode.do", //后台处理程序
+					type: "post", //数据发送方式
+					dataType: "json", //接受数据格式   
+					data: { //要传递的数据
+					}
+				}
+			},
+			rePassword: {
+				required: true,
+				equalTo: "#password"
+			}
+		},
+		messages: {
+			phoneNumber: {
+				required: "请填写手机号",
+				mobile: "手机号格式不正确",
+				maxlength: "手机号最大为11位",
+				remote: "您的手机号已注册过"
+			},
+			password: {
+				required: "请填写密码",
+				password: "密码仅支持数字、字母、字符",
+				rangelength: "密码长度6-16位"
+			},
+			verifyNum: {
+				required: "请填写验证码",
+				remote: "验证码不正确"
+			},
+			verificationCode: {
+				required: "请填写短信验证码",
+				digits: "短信验证码必须为整数数字",
+				rangelength: "验证码长度为4-6位",
+				remote: "验证码不正确"
+			},
+			rePassword: {
+				required: "请填写确认密码",
+				equalTo: "与密码不一致"
+			}
+		}
+	});
+	//补全资料 校验
+	var downForm = $("#downForm").validate({
+		rules: {
+			age: {
+				required: false,
+				digits: true,
+				range:[0,99]
+			},
+			email: {
+				required: false,
+				email: true
+			}
+		},
+		messages: {
+			age: {
+				required: "",
+				digits: "请填写合法年龄",
+				range:"年龄有效范围是0-99",
+				max:"请填写合法年龄"
+			},
+			email: {
+				required: "",
+				email: "邮箱格式不正确"
+			}
+		}
+	});
+
+	getVerifyNum(); //图片验证码
+	//提交注册
+	$("#registerSubmit").on("click", function() {
+		if($("#registerForm").valid()) {
+			register();
+		}
+	});
+	//发送短信验证码
+	$("#vCodeBtn").on("click", function() {
+		if(rgValidator.element("#phoneNumber")) {
+			var me = $(this);
+			sendSMS(me);
+		}
+	});
+	//注册协议
+	$("#userCheckbox").on("change", function() {
+		if($(this).prop("checked")) {
+			$("#registerSubmit").removeAttr("disabled").removeClass("disabled");
+		} else {
+			$("#registerSubmit").attr("disabled", "disabled").addClass("disabled");
+		}
+	});
+
+	//关闭头像裁剪框
+	$("#close").on("click", function() {
+		$(".img_box").hide();
+	});
+	//个人资料补全下一步
+	$("#next").on("click", function() {
+		if($("#downForm").valid()) {
+			$(".profileCompletion").hide();
+			$(".followIndustry").show();
+		}
+	});
+	//完成补全信息，提交资料
+	$("#finish").on("click", function() {
+		var list = '';
+		$("#TradeList li.on").each(function(index, item) {
+			index == 0 ? list += $(item).text() : list += "," + $(item).text();
+		});
+		insertUserMessag(list);
+	});
+});
+
+function register() {
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/insertUser.do",
+		async: true,
+		data: {
+			phoneNumber: $("#phoneNumber").val(),
+			password: $("#password").val(),
+			verify_num: $("#verify_num").val(), //图片验证码
+			verName: $("#VerifyNumImg").attr("data-name"), //图片验证码name
+			verification_Code: $("#verificationCode").val(), //手机验证码
+			userName: $("#userName").val(),
+			employer: $("#employer").val(),
+			position: $("#position").val()
+		},
+		success: function(data) {
+			if(data.retCode == 0000) {
+				var result = data.retData;
+				$.cookie('UU', result.UU, {
+					expires: 30
+				});
+				$.cookie('phone', result.Phone, {
+					expires: 30
+				});
+				$.cookie('userName', result.UserName, {
+					expires: 30
+				});
+				$(".regBox").hide();
+				$(".profileCompletion").show();
+			} else {
+				console.log(data.retCode + "：" + data.retMsg)
+			}
+		}
+	});
+}
+//个人信息资料补全
+function insertUserMessag(industryInfo) {
+	$.ajax({
+		type: "post",
+		url: url + "/tbuser/insertUserMessage.do",
+		async: true,
+		data: {
+			age: $("#age").val(), //年龄
+			avatarPath: $("#image_hidden").val(), //头像
+			email: $("#email").val(),
+			phoneNumber: $.cookie("phone"),
+			weChat: $("#wechat").val(),
+			identity: $("input[name='identity']:checked").val(), //身份
+			sex: $("input[name='sex']:checked").val(),
+			industryInfo: industryInfo //关注行业
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if(data.retCode == 0000) {
+				var result = data.retData;
+				window.location.href = "home.html";
+			} else {
+				errorAlert(data.retCode, data.retMsg);
+			}
+		}
+	});
+}
+//查询行业信息
+function findTrade() {
+	$.ajax({
+		type: "post",
+		url: url + "/common/findTrade.do",
+		async: true,
+		data: {
+			parentName: 0,
+			tradeGrade: 1
+		},
+		beforeSend: function(xhr) {
+			xhr.setRequestHeader("UU", $.cookie("UU"));
+			xhr.setRequestHeader("phone", $.cookie("phone"));
+		},
+		success: function(data) {
+			if(data.retCode == 0000) {
+				$("#TradeList").html("");
+				var result = data.retData;
+				//遍历关注行业列表
+				$.each(result.tradeList, function(index, item) {
+					var li = $("<li>");
+					li.html(item.tradeName)
+					li.on("click", function() { //切换关注行业选中状态 
+						if($("#TradeList li.on").size() > 9 && !$(this).hasClass("on")) {
+							$("#TradeList li.on").first().removeClass("on");
+						}
+						$(this).toggleClass("on");
+					});
+					$("#TradeList").append(li);
+				});
+			} else {
+				errorAlert(data.retCode, data.retMsg);
+			}
+		}
+	});
+}
+//查看协议
+$(document).ready(function(e){
+	$("#xieyi").click(function(){
+		$('.user_agree').scrollTop(0);
+		$(".tcbackground").show();
+		$(".usre_a_box").show();
+	});
+	$("#user_cha").click(function(){
+		$(".tcbackground").hide();
+		$(".usre_a_box").hide();
+		$('.user_agree').scrollTop(0);
+	});
+	
+})

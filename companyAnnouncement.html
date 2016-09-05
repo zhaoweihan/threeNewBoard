@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8">
+		<title>公司公告</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+		<link rel="stylesheet" type="text/css" href="css/businessDetails.css">
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="main">
+			<div class="main_center">
+				<!--<div class="main_left">
+					<ul>
+						<li class="qyzl"><a href="javascript:;">企业资料</a></li>
+						<li class="gsgg"><a href="javascript:;" class="hover">公司公告</a></li>
+						<li class="gbgd"><a href="javascript:;">股本股东</a></li>
+						<li class="cwsj"><a href="javascript:;">财务数据</a></li>
+						<li class="fxfp"><a href="javascript:;">发行分配</a></li>
+						<li class="yqjc"><a href="javascript:;">舆情监测</a></li>
+						<li class="hyyj"><a href="javascript:;">行业研究</a></li>
+					</ul>
+				</div>-->
+				<div class="main_right">
+					<div class="right_dbox">
+						<!--<div class="right_nav">
+							<div class="r_n_left">
+								<h2>中科软</h2>
+								<em>(430002)</em>
+								<a href="javascript:;">关注</a>
+							</div>
+							<div class="r_n_right">
+								<a href="javascript:;" class="cwdb">财务指标对标分析</a>
+								<a href="javascript:;" class="wnldb">五能力对标分析</a></div>
+							<div class="clr"></div>
+						</div>-->
+						<div class="clr"></div>
+						<div class="main_r_center">
+							<div class="r_center_title"> <span>最新公告</span> </div>
+							<div class="r_center_box">
+								<div class="center_title" id="companyAnntBtns">
+									<a href="javascript:;" class="hover" data-num='1'>重大事项及风险重组</a>
+									<a href="javascript:;" data-num='2'>信息变更</a>
+									<a href="javascript:;" data-num='3'>权益变动 </a>
+									<a href="javascript:;" data-num='4'>人事变动 </a>
+									<a href="javascript:;" data-num='5'>权益分派 </a>
+									<a href="javascript:;" data-num='6'>年报 </a>
+									<a href="javascript:;" data-num='7'>定向增发 </a>
+									<a href="javascript:;" data-num='8'>会议决议 </a>
+									<a href="javascript:;" data-num='9'>其他 </a>
+								</div>
+
+							</div>
+							<div class="gsgg_box">
+								<ul id='companyAnntList'>
+									<!--<li>
+											<a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a>
+											<span>2016-06-28</span>
+											<i>下载</i>
+										</li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>
+										<li><a href="javascript:;">国基科技:2016年第六次临时股东大会决议公告</a><span>2016-06-28</span><i>下载</i></li>-->
+								</ul>
+							</div>
+							<div class="fh_btn_pages gg_pages" id="pageBox">
+
+								<div class="pages" id="companyAnntPage">
+									<!--<a href="javascript:;" class="page_up">＜上一页</a><a href="javascript:;" class="current">1</a><a href="javascript:;">2</a><a href="javascript:;">3</a><a href="javascript:;">4</a><a href="javascript:;">5</a><span>...</span><a href="javascript:;">30</a>
+										<a href="javascript:;" class="page_down">下一页＞</a>-->
+								</div>
+								<div class="clr"></div>
+							</div>
+						</div>
+						<div class="clr"></div>
+						<div class="main_r_center">
+							<div class="r_center_title"><span>公司财报</span></div>
+							<div class="r_center_box">
+								<div class="center_title" id="finstaBtn">
+									<a href="javascript:;" class="hover" data-num="1">季报</a>
+									<a href="javascript:;" data-num="2">半年报 </a>
+									<a href="javascript:;" data-num="3">年报 </a>
+									<a href="javascript:;" data-num="4">其他 </a>
+								</div>
+
+							</div>
+							<div class="gsgg_box">
+								<ul id="finstaList"></ul>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+
+		</div>
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<!-- 分页 -->
+		<script type="text/javascript" src="js/easy_ui/jquery.parser.js"></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.linkbutton.js"></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.pagination.js"></script>
+		<!-- 分页 -->
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/detailCommon.js" ></script>
+		<script type="text/javascript" src="js/head2.js" ></script>
+		<script src="js/footer.js"></script>
+		<script src="js/user.js"></script>
+		<script type="text/javascript" src="js/companyAnnt.js"></script>
+	</body>
+
+</html>

@@ -1,0 +1,475 @@
+* {
+	box-sizing: border-box;
+	font-family: "微软雅黑";
+}
+
+body {
+	background: #E9EAEC;
+}
+
+.regContent {
+	background: #E9EAEC;
+}
+
+
+/*--------------注册------------*/
+
+.regContent .regBox {
+	position: relative;
+	width: 1155px;
+	height: 630px;
+	border: 1px solid #ccc;
+	background: #fff;
+	margin: 30px auto;
+}
+
+.regContent .regBox .top {
+	position: relative;
+	width: 100%;
+	height: 57px;
+	border: 1px solid #ccc;
+	border-width: 0 0 1px 0;
+}
+
+.regContent .regBox .top h3 {
+	font-size: 18px;
+	font-weight: 600;
+	color: #333;
+	line-height: 57px;
+	margin-left: 30px;
+}
+
+.regContent .regBox .top a {
+	display: inline-block;
+	position: absolute;
+	right: 35px;
+	top: 20px;
+	color: #5FBDD3;
+}
+
+.regContent .regBox .left-top {
+	position: absolute;
+	left: 0;
+	top: 57px;
+	width: 683px;
+	height: 256px;
+	border: 1px solid #ccc;
+	border-width: 0 1px 1px 0;
+}
+
+.regContent .regBox .left-top li,
+.regContent .regBox .left-bottom li {
+	position: relative;
+	display: block;
+	height: 35px;
+	width: 100%;
+	margin: 8px 0;
+	padding: 0 35px;
+}
+
+.regContent .regBox .left-top li:first-of-type,
+.regContent .regBox .left-bottom li:first-of-type {
+	margin-top: 20px;
+}
+
+.regBox .left-top li span,
+.regBox .left-bottom li span {
+	display: inline-block;
+	width: 100px;
+	height: 35px;
+	line-height: 35px;
+	text-align: right;
+	font-size: 15px;
+	float: left;
+}
+
+.regBox .left-top li input,
+.regBox .left-bottom li input[type='text'] {
+	height: 35px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	width: 286px;
+	margin-left: 10px;
+	padding: 0 10px;
+	float: left;
+}
+
+.regBox .left-top li input:focus,
+.regBox .left-bottom li input:focus {
+	border: 1px solid #5FBDD3;
+}
+
+.regBox .left-top li:nth-of-type(2) input,
+.regBox .left-top li:nth-of-type(3) input {
+	width: 190px;
+}
+
+.regBox .left-top li:nth-of-type(2) i {
+	display: inline-block;
+	width: 86px;
+	height: 35px;
+	margin-left: 10px;
+}
+.regBox .left-top li:nth-of-type(2) i img{
+	width: 100%;
+	height: 100%;
+}
+.regBox .left-top li:nth-of-type(3) button {
+	width: 86px;
+	height: 35px;
+	background: #5FBDD3;
+	margin-left: 10px;
+	border: 0;
+	color: #fff;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 13px;
+}
+.regBox .left-top li:nth-of-type(3) button.disabled{
+	background: #999;
+	cursor: not-allowed;
+}
+.regBox .left-top li label {
+	position: absolute;
+	left: 430px;
+	top: 0;
+	display: inline-block;
+	color: #EC8484;
+	height: 35px;
+	line-height: 35px;
+}
+
+.regBox .left-top li label:before {
+	display: inline-block;
+	content: "!";
+	color: #fff;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #EC8484;
+	text-align: center;
+	line-height: 20px;
+	margin-left: 15px;
+	margin-right: 10px;
+}
+
+.regContent .regBox .left-bottom {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 683px;
+	height: 317px;
+	border: 1px solid #ccc;
+	border-width: 0 1px 0 0;
+}
+
+.regContent .regBox .left-bottom li:first-of-type p {
+	padding: 0 110px;
+	font-size: 15px;
+}
+
+.regContent .regBox .left-bottom li:last-of-type {
+	margin-top: 18px;
+}
+
+.regContent .regBox .left-bottom li:last-of-type a {
+	color: #5FBDD3;
+}
+
+.regContent .regBox .left-bottom button[type='submit'] {
+	width: 286px;
+	height: 35px;
+	color: #fff;
+	border-radius: 5px;
+	font-size: 18px;
+	background: #5FBDD3;
+	margin-left: 145px;
+	cursor: pointer;
+}
+
+.regContent .regBox .left-bottom button.disabled {
+	background: #999;
+	cursor: not-allowed;
+}
+
+.regContent .regBox .right {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 472px;
+	height: 573px;
+	background: url(../images/register.gif) no-repeat center;
+}
+
+.footer {
+	border: 1px solid #ccc;
+	border-width: 1px 0 0 0;
+}
+
+
+/*--------------资料补全------------*/
+
+.profileCompletion {
+	width: 540px;
+	height: 630px;
+	border: 1px solid #ccc;
+	margin: 30px auto;
+	background: #fff;
+	display: none;
+
+}
+	
+
+.profileCompletion>div {
+	width: 100%;
+}
+
+.profileCompletion .title,
+.followIndustry .title {
+	height: 10%;
+	border: 1px solid #ccc;
+	border-width: 0 0 1px 0;
+}
+
+.profileCompletion .title p,
+.followIndustry .title p {
+	font-size: 18px;
+	text-align: center;
+	line-height: 62px;
+}
+
+.profileCompletion .middle {
+	height: 30%;
+	border: 1px dashed #ccc;
+	border-width: 0 0 1px 0;
+}
+
+.profileCompletion .middle p {
+	display: block;
+	width: 100%;
+	font-size: 18px;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	padding: 0 100px;
+}
+
+.profileCompletion .middle li,
+.profileCompletion .down li {
+	display: inline-block;
+	width: 100%;
+	height: 35px;
+	padding-left: 100px;
+}
+
+.profileCompletion .middle li label {
+	font-size: 15px;
+}
+
+.profileCompletion .down li{
+	margin: 5px 0;
+}
+.profileCompletion .down span {
+	font-size: 15px;
+}
+
+.profileCompletion .down li input[type='text'],
+.profileCompletion .down li input[type='number'] {
+	width: 180px;
+	height: 35px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	padding: 0 15px;
+	line-height: 35px;
+}
+.profileCompletion .down li input[type='text']:focus,
+.profileCompletion .down li input[type='number']:focus{
+	border: 1px solid #5FBDD3;
+}
+.profileCompletion .down li:first-of-type{
+	height: 100px;
+	margin-bottom: 0;
+}
+.profileCompletion .down li:first-of-type span{
+	position: relative;
+	top: -60px;
+}
+.profileCompletion .down li .uploadBtn{
+	position: relative;
+	top: -10px;
+	display: inline-block;
+	width: 80px;
+	height: 30px;
+	background: #5FBDD3;
+	border-radius:3px;
+	color: #fff;
+	text-align: center;
+	line-height: 30px;
+	cursor: pointer;
+}
+.profileCompletion .down li:nth-of-type(2){
+	line-height: 35px;
+	margin: 0;
+}
+.profileCompletion #next{
+	width: 180px;
+	height: 35px;
+	color: #fff;
+	background:#5FBDD3 ;
+	border-radius: 5px;
+	margin-left: 150px;
+	margin-top: 10px;
+}
+/*上传头像*/
+
+.img_box {
+	width: 500px;
+	height: 500px;
+	background: #fff;
+	position: fixed;
+	top: 22%;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	display: none;
+	z-index: 10;
+	opacity: 1;
+	border: 1px solid #ccc;
+}
+
+#canvas {
+	border: solid 1px #fff;
+	position: absolute;
+	top: 50%;
+	margin-top: -240px;
+	left: 50%;
+	margin-left: -240px;
+}
+
+#clipArea {
+	margin: 20px;
+	height: 69%;
+	margin-top: 35px;
+}
+
+#file {
+	margin: 20px;
+}
+
+#view {
+	display: inline-block;
+	margin-top: 10px;
+	width: 100px;
+	height: 100px;
+	background-color:#fff !important;
+	background: url(../images/deault_head.png) no-repeat ;
+	
+}
+
+.clipBtn {
+	width: 40%;
+	display: inline-block;
+	height: 30px;
+	background: #5FBDD3;
+	color: #fff;
+	border: 1px solid #5FBDD3;
+	float: left;
+	border-radius: 5px;
+	margin: 20px 5%;
+}
+
+#close {
+	height: 20px;
+	width: 20px;
+	text-align: center;
+	line-height: 20px;
+	font-size: 16px;
+	color: #fff;
+	border: #fff solid 1px;
+	border-radius: 50%;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 999;
+	cursor: pointer;
+	background: url(../images/close.png) no-repeat center center;
+	background-size: 20px;
+}
+/*关注行业*/
+.followIndustry{
+	width: 540px;
+	border: 1px solid #ccc;
+	margin: 0px auto;
+	background: #fff;
+	height: auto;
+	min-height: 538px;
+	text-align: justify;
+	display: none;
+	padding-bottom: 20px;
+}
+.followIndustry .title p{
+	font-size: 22px;
+	font-weight: 600;
+}
+.followIndustry p{
+	margin-top: 20px;
+	width: 100%;
+	padding: 0 120px;
+	font-size: 15px;
+}
+.followIndustry .fiBox ul{
+	margin-top: 20px;
+	display:flex ;
+	width: 80%;
+	margin-left: 10%;
+	height: auto;
+	text-align: justify;
+	flex-wrap:wrap;
+	justify-content: space-between;
+}
+.followIndustry .fiBox ul li{
+	padding: 4px 10px;
+	border: 1px solid #5FBDD3;
+	font-size: 15px;
+	margin: 5px 0 ;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.followIndustry .fiBox ul li.on{
+	background: #5FBDD3;
+	color: #fff;
+}
+.followIndustry button{
+	position: relative;
+	left: 50%;
+	margin-left: -90px;
+	margin-top: 50px;
+	margin-bottom: 30px;
+	display: block;
+	width: 180px;
+	height: 35px;
+	color: #fff;
+	background: #5FBDD3;
+	border-radius: 3px;
+	font-size: 15px;
+	cursor: pointer;
+	border: none;
+}
+#downForm label.error{
+	margin-left: 10px;
+	color: #EC8484;
+	font-size: 15px;
+}
+#downForm label.error:before{
+	display: inline-block;
+	content: "!";
+	color: #fff;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: #EC8484;
+	text-align: center;
+	line-height: 20px;
+	margin-left: 15px;
+	margin-right: 10px;
+}
+.fixe{position: fixed; top: 50%; margin: 0 auto;z-index: 10001; left: 0; right: 0;margin-top:-269px; }

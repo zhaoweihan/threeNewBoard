@@ -1,0 +1,131 @@
+html,body{
+	width: 100%;
+	height: 100%;
+	background: #EEF2F3;
+}
+.content{
+	position: relative;
+	width:100%;
+	min-width: 1200px;
+	height: 600px;
+	background: #183462 url(../images/loginback.jpg) no-repeat center;
+}
+.content .loginContent{
+	position: absolute;
+	top: 90px;
+	right: 23%;
+	box-sizing: border-box;
+	width: 380px;
+	height: 416px;
+	background: #fff;
+	padding: 30px 40px;
+	overflow: hidden;
+	}
+.loginContent h2{
+	color: #333;
+	font-size: 22px;
+	font-weight: 600;
+}
+.loginContent .hr{
+	position: relative;
+	margin: 20px 0;
+	margin-left: 85px;
+	width: 70%;
+	height: 1px;
+	background: #ccc;
+}
+.loginContent .hr:before{
+	position: absolute;
+	left: -85px;
+	top: -4px;
+	content: '';
+	display: inline-block;
+	width: 85px;
+	height: 5px;
+	background: #5FBDD3;
+}
+.loginContent .inputBox{
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	height: 40px;
+	border: 1px solid #999;
+	margin-bottom: 20px;
+}
+.loginContent .inputBox.focus{
+	border: 1px solid #5FBDD3;
+	box-shadow:  0 0 3px #5FBDD3;
+}
+.loginContent .inputBox:before{
+	position: absolute;
+	top: 7.5px;
+	display: inline-block;
+	content: '';
+	width: 40px;
+	height: 25px;
+	border-right: 1px solid #999;
+}
+.loginContent .phoneBox:before{
+	background: url(../images/user.png) no-repeat center;
+}
+.loginContent .pwdBox:before{
+	background: url(../images/register.png) no-repeat center;
+}
+.loginContent .inputBox input{
+	position: absolute;
+	top: 4px;
+	left: 45px;
+	height: 32px;
+	width: 220px;
+	outline: none;
+	font-size: 16px;
+	padding: 0 15px;
+}
+.loginContent .inputBox>label{
+	color: #EC8484;
+	position: absolute;
+	bottom: -20px;
+	left: 45px;
+}
+.loginContent .third{
+	position: relative;
+	margin-top: 36px;
+	width: 100%;
+	
+}
+.loginContent .third input{
+	vertical-align: middle;
+}
+.loginContent .third label{
+	color: #000;
+}
+.loginContent .third a.rp{
+	display: inline-block;
+	margin: 5px;
+	color: #333;
+}
+.loginContent .third a.rg{
+	position: absolute;
+	top: 5px;
+	right: 0;
+	color: #5FBDD3;
+}
+.loginContent button{
+	position: absolute;
+	bottom: 50px;
+	left: 0;
+	width: 80%;
+	margin-left:10%;
+	height: 50px;
+	background: #5FBDD3;
+	color: #fff;
+	font-size: 16px;
+	cursor: pointer;
+}
+#loginMsg{
+	display: none;
+	position: absolute;
+	bottom: 192px;
+	left: 100px;
+	color: #EC8484;
+}

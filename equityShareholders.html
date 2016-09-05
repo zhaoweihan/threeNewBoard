@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8">
+		<title>股本股东</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+		<link rel="stylesheet" type="text/css" href="css/businessDetails.css">
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+	</head>
+
+	<body>
+		<div class="main">
+			<div class="main_center">
+				<!--<div class="main_left">
+					<ul>
+						<li class="qyzl"><a href="javascript:;">企业资料</a></li>
+						<li class="gsgg"><a href="javascript:;" class="hover">公司公告</a></li>
+						<li class="gbgd"><a href="javascript:;">股本股东</a></li>
+						<li class="cwsj"><a href="javascript:;">财务数据</a></li>
+						<li class="fxfp"><a href="javascript:;">发行分配</a></li>
+						<li class="yqjc"><a href="javascript:;">舆情监测</a></li>
+						<li class="hyyj"><a href="javascript:;">行业研究</a></li>
+					</ul>
+				</div>-->
+				<div class="main_right">
+					<div class="right_dbox">
+						<!--<div class="right_nav">
+							<div class="r_n_left">
+								<h2>中科软</h2>
+								<em>(430002)</em>
+								<a href="javascript:;">关注</a>
+							</div>
+							<div class="r_n_right">
+								<a href="javascript:;" class="cwdb">财务指标对标分析</a>
+								<a href="javascript:;" class="wnldb">五能力对标分析</a></div>
+							<div class="clr"></div>
+						</div>-->
+						<div class="clr"></div>
+						<div class="main_r_center">
+							<div class="r_center_title"> <span>股本结构</span> </div>
+							<div class="gbjg_box">
+								<ul>
+									<li id="noticeDate"><span>股份构成</span></li>
+									<li id="generalCapital"><span>总股本(万股)</span></li>
+									<li id="generalCapitalA"><span>A股总股本</span></li>
+									<li id="circulationAShares"><span>流通A股</span></li>
+									<li id="restrictedAShare"><span>限售A股</span></li>
+									<li id="causeOfChange"><span>变动原因</span></li>
+								</ul>
+							</div>
+							<div class="clr"></div>
+							<div class="r_center_title"> <span>10大股东</span> </div>
+							<div class="center_title" id="noticeDateList">
+									<!-- <a href="javascript:;" class="hover" >2014-08-08</a>
+									<a href="javascript:;" >2014-08-08 </a>
+									<a href="javascript:;" >2014-08-08 </a>
+									<a href="javascript:;" >2014-08-08 </a> -->
+							</div>
+							<div class="sdgd_box">
+								<div class="sdgd_title"><span>主要股东持股变动公告</span></div>
+								<div class="sdgd_table">
+									<table width="100%" border="1">
+										<thead>
+											<tr>
+												<th scope="col" class="jjname">机构或基金名称</th>
+												<th scope="col">持有数量(万股)  </th>
+												<th scope="col">持股变化(万股)</th>
+												<th scope="col">占总股本比例(%) </th>
+												<th scope="col">实际增减持(%)</th>
+												<th scope="col">股份类型</th>
+												<!-- <th scope="col">持股详情</th> -->
+											</tr>
+										</thead>
+										<tbody id="topTenShareList">
+										</tbody>
+								</table>
+								</div>
+							</div>
+						</div>
+						<div class="clr"></div>
+						<div class="r_center_title"> <span>股东变化</span> </div>
+							
+							<div class="gbgd">
+								<div class="gbgd_list fl">
+									<div class="gbgd_list_title"><span>同行业股东人数增减量前10名</span></div>
+									<div class="gbgd_table">
+									<table width="100%" border="1">
+										<thead>
+											<tr>
+											<th scope="col">股票名称</th>
+											<th scope="col">股东人数</th>
+											<th scope="col">较上期变化</th>
+											</tr>
+										</thead>
+										<tbody id="topTenList">
+										</tbody>
+								</table>
+								</div>
+								</div>
+								<div class="gbgd_list fr">
+									<div class="gbgd_list_title"><span>同行业股东人数增减量后10名</span></div>
+									<div class="gbgd_table">
+									<table width="100%" border="1">
+										<thead>
+											<tr>
+											<th scope="col">股票名称</th>
+											<th scope="col">股东人数</th>
+											<th scope="col">较上期变化</th>
+											</tr>
+										</thead>
+										<tbody id="lastTenList">
+										</tbody>
+								</table>
+									</div>
+									
+								</div>
+								<div class="clr"></div>
+							</div>
+							<div class="clr"></div>
+
+					</div>
+
+				</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+
+		</div>
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<!-- 分页 -->
+		<script type="text/javascript" src="js/easy_ui/jquery.parser.js"></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.linkbutton.js"></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.pagination.js"></script>
+		<!-- 分页 -->
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" src="js/head2.js" ></script>
+		<script type="text/javascript" src="js/detailCommon.js" ></script>
+		<script src="js/footer.js"></script>
+		<script src="js/user.js"></script>
+		<script type="text/javascript" src="js/companyAnnt.js"></script>
+		<script type="text/javascript" src="js/equityShareholders.js"></script>
+	</body>
+
+</html>

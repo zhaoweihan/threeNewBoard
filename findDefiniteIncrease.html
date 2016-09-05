@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charset="UTF-8">
+		<title>找定增</title>
+		<link rel="shortcut icon" href="images/jhh.ico" type="image/x-icon" />
+		<link href="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/amazeui.datetimepicker.css"/>
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+		<link rel="stylesheet" type="text/css" href="css/findEnterprise.css" />
+		
+		
+		
+	</head>
+	<body>
+		<div class="tcbackground"></div>
+		<div class="main">
+			<div class="crumbs"><a href="home.html">首页</a>＞<a>定增</a></div>
+			<div class="selection_box">
+			<div class="select_list">
+				<div class="select_left"><span>行业:</span></div>
+				<div class="select_hangye_box">
+					<div class="select_body">
+						<div class="body_info"><!-- <b>二级行业</b> -->
+							<div class="hangye_box" id="trade">
+							<!-- <a href="#" class="hover">行业1</a>
+							<a href="#">行业2</a> -->
+							</div>
+						</div>
+						<div class="select_right"><a href="#" class="gengduo">更多∨</a></div>
+					</div>
+				</div>
+					<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+			<div class="select_list">
+			<div class="select_left"><span>交易方式:</span></div>
+			<div class="select_body"><div class="jyfs" id="tradingType">	
+			<div class="data-radio">
+				<input type="radio" id="xieyi" value="协议转让" name="tradingType"/>
+				<label for="xieyi" class="radio"></label>
+				<label class="radioWord" for="xieyi">协议</label>
+			</div>
+			<div class="data-radio">
+				<input type="radio" id="zuoshi" value="做市转让" name="tradingType"/>
+				<label for="zuoshi" class="radio"></label>
+				<label class="radioWord" for="zuoshi">做市</label>
+			</div>
+			</div>
+			</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+			<div class="select_list">
+			<div class="select_left"><span>起止时间:</span></div>
+			<div class="select_body">
+				<div class="startimeToEnd">
+					<input type="datetime" name="starTime" id="starTime" data-am-datepicker="{format: 'yyyy-mm-dd'}"  readonly/>
+					<em>-</em>
+					<input type="datetime" name="endTime" id="endTime" data-am-datepicker="{format: 'yyyy-mm-dd'}" readonly/>
+					<a href="javascript:void(0);" onclick="changeParam()">确定</a>
+				</div>
+			</div>
+			<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+			
+			<div class="select_list">
+			<div class="select_left"><span>募资金额:</span></div>
+			<div class="select_body"><div class="jyfs" id="raiseAmount">	
+			<div class="data-radio">
+				<input type="radio" id="jibao" value="0-500" name="tc" />
+				<label for="jibao" class="radio"></label>
+				<label class="radioWord" for="jibao">0-500</label>
+			</div>
+			<div class="data-radio">
+				<input type="radio" id="zhongbao" value="500-1000" name="tc" />
+				<label for="zhongbao" class="radio"></label>
+				<label class="radioWord" for="zhongbao">500-1000</label>
+			</div>
+            <div class="data-radio">
+				<input type="radio" id="nianbao" value="1000-3000" name="tc" />
+				<label for="nianbao" class="radio"></label>
+				<label class="radioWord" for="nianbao">1000-3000</label>
+			</div>
+             <div class="data-radio">
+				<input type="radio" id="yishang" value="3000以上" name="tc" />
+				<label for="yishang" class="radio"></label>
+				<label class="radioWord" for="yishang">3000以上</label>
+			</div>
+			</div>
+			</div>
+				<div class="clr"></div>
+			</div>
+            <div class="clr"></div>
+            <div class="select_list">
+			<div class="select_left"><span>市盈率:</span></div>
+			<div class="select_body"><div class="jyfs" id="financingRatio">	
+			<div class="data-radio">
+				<input type="radio" id="lyx" value="0以下" name="tc" />
+				<label for="lyx" class="radio"></label>
+				<label class="radioWord" for="lyx">0以下</label>
+			</div>
+			<div class="data-radio">
+				<input type="radio" id="lds" value="0-30" name="tc" />
+				<label for="lds" class="radio"></label>
+				<label class="radioWord" for="lds">0-30</label>
+			</div>
+            <div class="data-radio">
+				<input type="radio" id="sdw" value="30-50" name="tc" />
+				<label for="sdw" class="radio"></label>
+				<label class="radioWord" for="sdw">30-50</label>
+			</div>
+             <div class="data-radio">
+				<input type="radio" id="wys" value="50以上" name="tc" />
+				<label for="wys" class="radio"></label>
+				<label class="radioWord" for="wys">50以上</label>
+			</div>
+			</div>
+			</div>
+				<div class="clr"></div>
+			</div>
+            <div class="clr"></div>
+             <div class="select_list">
+			<div class="select_left"><span>溢价率:</span></div>
+			<div class="select_body"><div class="jyfs" id="premiumRate">	
+			<div class="data-radio">
+				<input type="radio" id="ydw" value="1-5" name="tc" />
+				<label for="ydw" class="radio"></label>
+				<label class="radioWord" for="ydw">1-5</label>
+			</div>
+			<div class="data-radio">
+				<input type="radio" id="wds" value="5-10" name="tc" />
+				<label for="wds" class="radio"></label>
+				<label class="radioWord" for="wds">5-10</label>
+			</div>
+            <div class="data-radio">
+				<input type="radio" id="sds" value="10-30" name="tc" />
+				<label for="sds" class="radio"></label>
+				<label class="radioWord" for="sds">10-30</label>
+			</div>
+             <div class="data-radio">
+				<input type="radio" id="sdws" value="30-50" name="tc" />
+				<label for="sdws" class="radio"></label>
+				<label class="radioWord" for="sdws">30-50</label>
+			</div>
+			</div>
+			</div>
+				<div class="clr"></div>
+			</div>
+            <div class="clr"></div>
+		
+			<div class="select_list last">
+			<div class="select_left"><span>检索条件:</span></div>
+			<div class="select_body">
+			<div class="jstj" id="jstj">	
+			<span style="cursor: pointer;" onclick="clearParam()">清空筛选</span><a href="javascript:void(0);" onclick="saveParam()" class="bcsx">保存我的筛选</a><em id="saveParamTitle">请选择筛选条件</em>
+			</div>
+			</div>
+				<div class="clr"></div>
+			</div>
+			<div class="clr"></div>
+			<div class="cx_title">
+				<div class="title_left_fh">
+					<span>符合条件的企业：<i id="total">0</i>家</span>
+				</div>
+				<div class="title_right_fh"><a href="javascript:void(0);" onclick="exportTable()">导出表格</a></div>
+				<div class="clr"></div>
+			</div>
+			<div class="fh_tj_table zdz_table">
+				<table width="100%" border="1">
+					<thead>
+						<tr>
+								<th scope="col" class="quanxuan"><input type="checkbox" class="qx" id="selectAll"/>全选</th>
+								<th scope="col" class="gpdm">股票代码</th>
+								<th scope="col" class="qyjc">企业简称</th>
+								<th scope="col" class="ggrq">公告日期</th>
+								<th scope="col" class="zxjd">最新进度</th>
+				                <th scope="col" class="fxjy">发行价（元）</th>
+				                <th scope="col" class="fxlwg">发行量（万股）</th>
+				                <th scope="col" class="mjzjwy">募集金额（万元）</th>
+				                <th scope="col" class="rzsyl"> 融资市盈率</th>
+				                <th scope="col" class="yjl">溢价率</th>
+				                <th scope="col" class="fxdx">发行对象</th>
+				                <th scope="col" class="xiaz">附件</th>
+								<th scope="col" class="gz">关注</th>
+						</tr>
+					</thead>
+					<tbody id="privatePlacement" data-pageSize="">
+						
+					</tbody>
+					<!--
+					<tr>
+							<td class="quanxuan"><input type="checkbox" class="choo"/></td>
+							<td class="gpdm"><a href="#">430076</a></td>
+							<td class="qyjc"><a href="#">国基科技</a> </td>
+							<td class="ggrq"><a href="#">2016-07-01</a></td>
+							<td class="zxjd">最新进度</td>
+			                <td class="fxjy">50</td>
+			                <td class="fxlwg">100</td>
+			                <td  class="mjzjwy red">200</td>
+			                <td class="rzsyl red"> 25%</td>
+			                <td  class="yjl red">30%</td>
+			                <td  class="fxdx">发行对象</td>
+							<td class="xiaz"><span class="pdf"></span></td>
+							<td class="gz"><span class="wgz"></span></td>
+					</tr>
+        	 <tr>
+				<td class="quanxuan"><input type="checkbox" class="choo"/></td>
+				<td class="gpdm"><a href="#">430076</a></td>
+				<td class="qyjc"><a href="#">国基科技</a> </td>
+				<td class="ggrq"><a href="#">2016-07-01</a></td>
+				<td class="zxjd">最新进度</td>
+                <td class="fxjy">50</td>
+                <td class="fxlwg">100</td>
+                <td  class="mjzjwy red">200</td>
+                <td class="rzsyl red"> 25%</td>
+                <td  class="yjl red">30%</td>
+                <td  class="fxdx">发行对象</td>
+				<td class="xiaz"><span class="pdf"></span></td>
+				<td class="gz"><span class="wgz"></span></td>
+		</tr>
+        	<tr>
+				<td class="quanxuan"><input type="checkbox" class="choo"/></td>
+				<td class="gpdm"><a href="#">430076</a></td>
+				<td class="qyjc"><a href="#">国基科技</a> </td>
+				<td class="ggrq"><a href="#">2016-07-01</a></td>
+				<td class="zxjd">最新进度</td>
+                <td class="fxjy">50</td>
+                <td class="fxlwg">100</td>
+                <td  class="mjzjwy red">200</td>
+                <td class="rzsyl red"> 25%</td>
+                <td  class="yjl red">30%</td>
+                <td  class="fxdx">发行对象</td>
+				<td class="xiaz"><span class="pdf"></span></td>
+				<td class="gz"><span class="wgz"></span></td>
+		</tr>
+        	<tr>
+				<td class="quanxuan"><input type="checkbox" class="choo"/></td>
+				<td class="gpdm"><a href="#">430076</a></td>
+				<td class="qyjc"><a href="#">国基科技</a> </td>
+				<td class="ggrq"><a href="#">2016-07-01</a></td>
+				<td class="zxjd">最新进度</td>
+                <td class="fxjy">50</td>
+                <td class="fxlwg">100</td>
+                <td  class="mjzjwy red">200</td>
+                <td class="rzsyl red"> 25%</td>
+                <td  class="yjl red">30%</td>
+                <td  class="fxdx">发行对象</td>
+				<td class="xiaz"><span class="pdf"></span></td>
+				<td class="gz"><span class="wgz"></span></td>
+		</tr>
+        	<tr>
+				<td class="quanxuan"><input type="checkbox" class="choo"/></td>
+				<td class="gpdm"><a href="#">430076</a></td>
+				<td class="qyjc"><a href="#">国基科技</a> </td>
+				<td class="ggrq"><a href="#">2016-07-01</a></td>
+				<td class="zxjd">最新进度</td>
+                <td class="fxjy">50</td>
+                <td class="fxlwg">100</td>
+                <td  class="mjzjwy red">200</td>
+                <td class="rzsyl red"> 25%</td>
+                <td  class="yjl red">30%</td>
+                <td  class="fxdx">发行对象</td>
+				<td class="xiaz"><span class="pdf"></span></td>
+				<td class="gz"><span class="wgz"></span></td>
+		</tr> -->
+		
+</table>
+
+			</div>
+			<div class="fh_btn_pages">
+				
+				<div class="pages" id="page">
+					<!-- <a href="#" class="page_up">＜上一页</a><a href="javascript:;" class="current">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#">5</a><span>...</span><a href="#">30</a><a href="#" class="page_down">下一页＞</a> -->
+				</div>
+				<div class="clr"></div>
+			</div>
+			</div>
+		</div>
+		
+		<!--查看对象弹窗 star-->
+		<div class="chaktx" style="display: none">
+		   <div class="chaktx_title"><span>发行对象</span> <a href="javascript:void(0);" onclick="hindAlert()">X</a></div>
+			 <div class="chaktx_table">
+			    <table width="100%" border="1">
+				    <thead>
+						<tr>
+							<th scope="col" class="tc_fxdx">发行对象</th>
+							<th scope="col" class="tc_rgjg">认购价格(元)</th>
+							<th scope="col" class="tc_rgsl">认购数量(万股)</th>
+							<th scope="col" class="tc_rgje">认购金额(万元)</th>
+							<th scope="col" class="tc_cgqx">持股期限(月)</th>
+						</tr>
+					</thead>
+					<tbody id="duixiangHtml">
+					</tbody>
+		<!-- <tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr>
+		<tr>
+				<td class="tc_fxdx">金衡和科技有限公司</td>
+				<td class="tc_rgjg">6.00</td>
+				<td class="tc_rgsl">100.000</td>
+				<td class="tc_rgje">60.00</td>
+				<td class="tc_cgqx">12</td>
+		</tr> -->
+				</table>
+			 </div>
+		</div>
+		<!--查看对象弹窗 end-->
+		
+		
+		
+		<!--保存检索条件 star-->
+		<div class="qrdele top2" id="savaParam">
+			<div class="qr_title"><span>保存我的检索</span><a href="javascript:void(0);">X</a></div>
+			<div class="qr_box">
+				<ul>
+					<li class="clearfix"><span>搜索条件：</span><textarea disabled="disabled"></textarea></li>
+					<li class="clearfix"><span>命名自定义检索：</span><input type="text" placeholder="请输入一个检索方案名" value=""/><b id="paramName">请输入一个检索方案名</b></li>
+				</ul>
+			<div class="clr"></div>
+			</div>
+			<div class="qr_dele_btn"><button class="save">保存</button><button class="quxiao">取消</button></div>
+		</div>
+		<!--保存检索条件 end-->
+		
+		
+		
+		<script src="http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js"></script>
+		<script src="http://cdn.bootcss.com/jqueryui/1.11.4/jquery-ui.min.js"></script>
+		<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script src="js/head2.js"></script> 
+		<script src="js/footer.js"></script>
+		<script src="js/user.js"></script>
+		<script type="text/javascript" src="js/rightMenu.js"></script>
+		<script src="http://cdn.amazeui.org/amazeui/2.7.0/js/amazeui.min.js" type="text/javascript" charset="utf-8"></script>
+		<!-- 分页 -->
+		<script type="text/javascript" src="js/easy_ui/jquery.parser.js" ></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.linkbutton.js" ></script>
+		<script type="text/javascript" src="js/easy_ui/jquery.pagination.js"></script>
+		<script src="js/findDefiniteIncrease.js"></script>
+	</body>
+</html>

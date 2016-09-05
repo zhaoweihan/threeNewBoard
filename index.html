@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.img_box {
+				width: 500px;
+				height: 500px;
+				background: #fff;
+				position: fixed;
+				top: 22%;
+				margin: 0 auto;
+				left: 0;
+				right: 0;
+				display: none;
+				z-index: 10;
+				opacity: 1;
+				border: 1px solid #ccc;
+			}
+			
+			#canvas {
+				border: solid 1px #fff;
+				position: absolute;
+				top: 50%;
+				margin-top: -240px;
+				left: 50%;
+				margin-left: -240px;
+			}
+			
+			#view {
+				background: url(images/deault_logo.jpg) no-repeat center/100% 100%;
+			}
+			
+			#clipArea {
+				margin: 20px;
+				height: 69%;
+				margin-top: 35px;
+			}
+			
+			#file {
+				margin: 20px;
+			}
+			
+			#view {
+				margin: 0 auto;
+				width: 80px;
+				height: 80px;
+				float: left;
+				border-radius: 5px;
+				cursor: pointer;
+			}
+			
+			.clipBtn {
+				width: 40%;
+				display: inline-block;
+				height: 30px;
+				background: #fd8145;
+				color: #fff;
+				border: 1px solid #fd8145;
+				float: left;
+				border-radius: 5px;
+				margin: 20px 5%;
+			}
+			
+			#close {
+				height: 20px;
+				width: 20px;
+				text-align: center;
+				line-height: 20px;
+				font-size: 16px;
+				color: #fff;
+				border: #fff solid 1px;
+				border-radius: 50%;
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				z-index: 999;
+				cursor: pointer;
+				background: url(images/close03.png) no-repeat center center;
+				background-size: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<form>
+			<label for="files1" id="view"></label>
+			<input id="files1" name="image_file" type="file" style="display: none;" >
+
+		</form>
+		<div class="img_box">
+			<div id="close">x</div>
+			<div id="clipArea"></div>
+			<button class="clipBtn" id="reselect">重新选取</button>
+			<button class="clipBtn" id="clipBtn">保存</button>
+		</div>
+		<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+		<script src="//cdn.bootcss.com/jquery-validate/1.13.1/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="js/iscroll-zoom.js" ></script>
+		<script src="//cdn.bootcss.com/hammer.js/2.0.4/hammer.min.js"></script>
+		<script type="text/javascript" src="js/lrz.all.bundle.js"></script>
+		<script type="text/javascript" src="js/jquery.photoClip.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript">
+			var upfile = document.querySelector('#files1');
+			upfile.onchange = function() {
+				if (upfile.files) {
+					var f = upfile.files[0];
+					var filesize = f.size < 5120 || f.size > 5242880;
+					var allow_type = '|.jpg|jpeg|.png|';
+					var ext_name = '|' + f.name.toLowerCase().substr(f.name.length - 4) + '|';
+					var filetype = (allow_type.indexOf(ext_name) == -1);
+					if (filesize) {
+						file_obj = false;
+						$.zmAlert("您选择的文件大于5MB或小于5K，请选择合适的照片");
+						return false;
+					}
+					$(".img_box").show();
+				}
+			}
+			$("#reselect").on("click",function(){
+				$("#files1").click();
+			});
+			var clipArea = new bjj.PhotoClip("#clipArea", {
+				size:[200,200],
+				outputSize:[80,80],
+				file: "#files1",
+				view: "#view",
+				ok: "#clipBtn",
+				strictSize: true,
+				loadStart: function() {
+					console.log("照片读取中");
+				},
+				loadComplete: function() {
+					console.log("照片读取完成");
+				},
+				clipFinish: function(dataURL) {
+					console.log(dataURL);
+					//uoploadPic(dataURL, 1, 0);
+					$(".img_box").hide();
+				}
+			});
+		</script>
+	</body>
+
+</html>
